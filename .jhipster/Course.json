@@ -1,0 +1,19 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180315162656",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "course",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

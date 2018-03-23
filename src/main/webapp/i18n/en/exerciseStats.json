@@ -1,0 +1,24 @@
+
+{
+    "amoghServerApp": {
+        "exerciseStats" : {
+            "home": {
+                "title": "Exercise Stats",
+                "createLabel": "Create a new Exercise Stats",
+                "createOrEditLabel": "Create or edit a Exercise Stats"
+            },
+            "created": "A new Exercise Stats is created with identifier {{ param }}",
+            "updated": "A Exercise Stats is updated with identifier {{ param }}",
+            "deleted": "A Exercise Stats is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Exercise Stats {{ id }}?"
+            },
+            "detail": {
+                "title": "Exercise Stats"
+            },
+            "status": "Status",
+            "user": "User",
+            "exercise": "Exercise"
+        }
+    }
+}

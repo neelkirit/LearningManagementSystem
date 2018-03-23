@@ -1,0 +1,24 @@
+
+{
+    "amoghServerApp": {
+        "template" : {
+            "home": {
+                "title": "Templates",
+                "createLabel": "नया Template बनाएँ",
+                "createOrEditLabel": "Template बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Template [identifier: {{ param }}] तैयार है",
+            "updated": "एक Template [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Template [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Template [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Template"
+            },
+            "style": "Style",
+            "contentType": "Content Type",
+            "contentPrefix": "Content Prefix"
+        }
+    }
+}

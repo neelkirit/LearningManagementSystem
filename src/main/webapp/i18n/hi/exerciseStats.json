@@ -1,0 +1,24 @@
+
+{
+    "amoghServerApp": {
+        "exerciseStats" : {
+            "home": {
+                "title": "ExerciseStats",
+                "createLabel": "नया Exercise Stats बनाएँ",
+                "createOrEditLabel": "Exercise Stats बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Exercise Stats [identifier: {{ param }}] तैयार है",
+            "updated": "एक Exercise Stats [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Exercise Stats [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Exercise Stats [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Exercise Stats"
+            },
+            "status": "Status",
+            "user": "User",
+            "exercise": "Exercise"
+        }
+    }
+}

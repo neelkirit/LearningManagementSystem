@@ -1,0 +1,36 @@
+
+<div *ngIf="assessmentStats">
+    <h2><span jhiTranslate="amoghServerApp.assessmentStats.detail.title">Assessment Stats</span> {{assessmentStats.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="amoghServerApp.assessmentStats.score">Score</span></dt>
+        <dd>
+            <span>{{assessmentStats.score}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.assessmentStats.user">User</span></dt>
+        <dd>
+            {{assessmentStats.userLogin}}
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.assessmentStats.assessment">Assessment</span></dt>
+        <dd>
+            <div *ngIf="assessmentStats.assessmentId">
+                <a [routerLink]="['/assessment', assessmentStats.assessmentId]">{{assessmentStats.assessmentId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'assessment-stats/'+ assessmentStats.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

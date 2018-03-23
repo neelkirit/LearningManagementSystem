@@ -1,0 +1,11 @@
+{
+    "amoghServerApp": {
+        "ContentType" : {
+            "null": "",
+            "ALPHABET": "ALPHABET",
+            "NUMBER": "NUMBER",
+            "CURRENCY": "CURRENCY",
+            "WORD": "WORD"
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "course",
+            "otherEntityName": "course",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "assessment"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "threshold",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180315164829",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "assessment",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

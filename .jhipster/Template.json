@@ -1,0 +1,29 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "style",
+            "fieldType": "String",
+            "fieldValidateRules": []
+        },
+        {
+            "fieldName": "contentType",
+            "fieldType": "ContentType",
+            "fieldValues": "ALPHABET,NUMBER,CURRENCY,WORD",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "contentPrefix",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180315164245",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "template",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

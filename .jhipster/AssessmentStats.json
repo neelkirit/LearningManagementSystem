@@ -1,0 +1,38 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "user",
+            "otherEntityName": "user",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "login",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "assessmentStats"
+        },
+        {
+            "relationshipName": "assessment",
+            "otherEntityName": "assessment",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "score",
+            "fieldType": "Float",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "0",
+            "fieldValidateRulesMax": 100
+        }
+    ],
+    "changelogDate": "20180315165313",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "assessment_stats",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

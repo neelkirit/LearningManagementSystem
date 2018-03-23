@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "topic",
+            "otherEntityName": "topic",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "template",
+            "otherEntityName": "template",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "contentType",
+            "fieldType": "ContentType",
+            "fieldValues": "ALPHABET,NUMBER,CURRENCY,WORD",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "content",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "contentPrefix",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180315163908",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "exercise",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

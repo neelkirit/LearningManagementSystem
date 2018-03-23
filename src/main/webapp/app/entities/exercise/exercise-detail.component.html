@@ -1,0 +1,46 @@
+
+<div *ngIf="exercise">
+    <h2><span jhiTranslate="amoghServerApp.exercise.detail.title">Exercise</span> {{exercise.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="amoghServerApp.exercise.contentType">Content Type</span></dt>
+        <dd>
+            <span jhiTranslate="{{'amoghServerApp.ContentType.' + exercise.contentType}}">{{exercise.contentType}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.exercise.content">Content</span></dt>
+        <dd>
+            <span>{{exercise.content}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.exercise.contentPrefix">Content Prefix</span></dt>
+        <dd>
+            <span>{{exercise.contentPrefix}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.exercise.topic">Topic</span></dt>
+        <dd>
+            <div *ngIf="exercise.topicId">
+                <a [routerLink]="['/topic', exercise.topicId]">{{exercise.topicName}}</a>
+            </div>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.exercise.template">Template</span></dt>
+        <dd>
+            <div *ngIf="exercise.templateId">
+                <a [routerLink]="['/template', exercise.templateId]">{{exercise.templateId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'exercise/'+ exercise.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

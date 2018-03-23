@@ -1,0 +1,50 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myTemplateLabel" jhiTranslate="amoghServerApp.template.home.createOrEditLabel">Create or edit a Template</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!template.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="template.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.template.style" for="field_style">Style</label>
+            <input type="text" class="form-control" name="style" id="field_style"
+                [(ngModel)]="template.style" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.template.contentType" for="field_contentType">Content Type</label>
+            <select class="form-control" name="contentType" [(ngModel)]="template.contentType" id="field_contentType"  required>
+                <option value="ALPHABET">{{'amoghServerApp.ContentType.ALPHABET' | translate}}</option>
+                <option value="NUMBER">{{'amoghServerApp.ContentType.NUMBER' | translate}}</option>
+                <option value="CURRENCY">{{'amoghServerApp.ContentType.CURRENCY' | translate}}</option>
+                <option value="WORD">{{'amoghServerApp.ContentType.WORD' | translate}}</option>
+            </select>
+            <div [hidden]="!(editForm.controls.contentType?.dirty && editForm.controls.contentType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.contentType?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.template.contentPrefix" for="field_contentPrefix">Content Prefix</label>
+            <input type="text" class="form-control" name="contentPrefix" id="field_contentPrefix"
+                [(ngModel)]="template.contentPrefix" />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

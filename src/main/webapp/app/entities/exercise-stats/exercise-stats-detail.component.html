@@ -1,0 +1,36 @@
+
+<div *ngIf="exerciseStats">
+    <h2><span jhiTranslate="amoghServerApp.exerciseStats.detail.title">Exercise Stats</span> {{exerciseStats.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="amoghServerApp.exerciseStats.status">Status</span></dt>
+        <dd>
+            <span>{{exerciseStats.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.exerciseStats.user">User</span></dt>
+        <dd>
+            {{exerciseStats.userLogin}}
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.exerciseStats.exercise">Exercise</span></dt>
+        <dd>
+            <div *ngIf="exerciseStats.exerciseId">
+                <a [routerLink]="['/exercise', exerciseStats.exerciseId]">{{exerciseStats.exerciseId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'exercise-stats/'+ exerciseStats.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,26 @@
+
+{
+    "amoghServerApp": {
+        "exercise" : {
+            "home": {
+                "title": "Exercises",
+                "createLabel": "नया Exercise बनाएँ",
+                "createOrEditLabel": "Exercise बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Exercise [identifier: {{ param }}] तैयार है",
+            "updated": "एक Exercise [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Exercise [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Exercise [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Exercise"
+            },
+            "contentType": "Content Type",
+            "content": "Content",
+            "contentPrefix": "Content Prefix",
+            "topic": "Topic",
+            "template": "Template"
+        }
+    }
+}
