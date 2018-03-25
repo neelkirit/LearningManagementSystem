@@ -1,5 +1,7 @@
 package com.amogh.lms.service;
 
+import com.amogh.lms.domain.Template;
+import com.amogh.lms.domain.enumeration.ContentType;
 import com.amogh.lms.service.dto.ExerciseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +41,13 @@ public interface ExerciseService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Finds the exercise object based on template id, content type and content
+     * @param template the template object
+     * @param contentType the content type
+     * @param content the content
+     * @return ExceriseDTO object
+     */
+    ExerciseDTO findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content);
 }

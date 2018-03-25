@@ -1,0 +1,10 @@
+{
+    "amoghServerApp": {
+        "ContentStyle" : {
+            "null": "",
+            "ITALICS": "ITALICS",
+            "BOLD": "BOLD",
+            "BOLD_ITALICS": "BOLD_ITALICS"
+        }
+    }
+}

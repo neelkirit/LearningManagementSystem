@@ -5,6 +5,7 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 import com.amogh.lms.domain.enumeration.ContentType;
+import com.amogh.lms.domain.enumeration.ContentStyle;
 
 /**
  * A DTO for the Template entity.
@@ -13,12 +14,15 @@ public class TemplateDTO implements Serializable {
 
     private Long id;
 
-    private String style;
-
     @NotNull
     private ContentType contentType;
 
     private String contentPrefix;
+
+    private ContentStyle contentStyle;
+
+    @NotNull
+    private String name;
 
     public Long getId() {
         return id;
@@ -26,14 +30,6 @@ public class TemplateDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStyle() {
-        return style;
-    }
-
-    public void setStyle(String style) {
-        this.style = style;
     }
 
     public ContentType getContentType() {
@@ -50,6 +46,22 @@ public class TemplateDTO implements Serializable {
 
     public void setContentPrefix(String contentPrefix) {
         this.contentPrefix = contentPrefix;
+    }
+
+    public ContentStyle getContentStyle() {
+        return contentStyle;
+    }
+
+    public void setContentStyle(ContentStyle contentStyle) {
+        this.contentStyle = contentStyle;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -77,9 +89,10 @@ public class TemplateDTO implements Serializable {
     public String toString() {
         return "TemplateDTO{" +
             "id=" + getId() +
-            ", style='" + getStyle() + "'" +
             ", contentType='" + getContentType() + "'" +
             ", contentPrefix='" + getContentPrefix() + "'" +
+            ", contentStyle='" + getContentStyle() + "'" +
+            ", name='" + getName() + "'" +
             "}";
     }
 }

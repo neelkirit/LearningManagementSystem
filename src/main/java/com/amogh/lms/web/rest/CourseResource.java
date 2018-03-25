@@ -1,5 +1,8 @@
 package com.amogh.lms.web.rest;
 
+import com.amogh.lms.ingester.Ingest;
+import com.amogh.lms.ingester.model.IngestModel;
+import com.amogh.lms.service.dto.UploadCourseDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.CourseService;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
@@ -123,5 +126,15 @@ public class CourseResource {
         log.debug("REST request to delete Course : {}", id);
         courseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    @PutMapping("/courses/upload")
+    public ResponseEntity<List<IngestModel>> uploadExercisesForCourse(@Valid @RequestBody UploadCourseDTO uploadCourseDTO) throws URISyntaxException {
+        Ingest ingest = new Ingest();
+        List<IngestModel> ingestModels = ingest.process(uploadCourseDTO.getFilePath());
+        System.out.println("Founds [" + ingestModels.size() + "] exercise questions to upload..");
+        ingest.persist(ingestModels);
+        return ResponseEntity.ok().headers(HeaderUtil.createUploadCourseAlert(uploadCourseDTO.getFilePath(), ingestModels.size()))
+            .body(ingestModels);
     }
 }

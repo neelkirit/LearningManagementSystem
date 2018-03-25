@@ -13,4 +13,11 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long> {
 
+    /**
+     * Finds the topic by name
+     * @param topicName the topic name
+     * @return Topic object saved
+     */
+    Topic findByName(String topicName);
+
 }

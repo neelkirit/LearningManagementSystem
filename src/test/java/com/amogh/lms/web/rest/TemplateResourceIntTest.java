@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.amogh.lms.domain.enumeration.ContentType;
+import com.amogh.lms.domain.enumeration.ContentStyle;
 /**
  * Test class for the TemplateResource REST controller.
  *
@@ -42,14 +43,17 @@ import com.amogh.lms.domain.enumeration.ContentType;
 @SpringBootTest(classes = AmoghServerApp.class)
 public class TemplateResourceIntTest {
 
-    private static final String DEFAULT_STYLE = "AAAAAAAAAA";
-    private static final String UPDATED_STYLE = "BBBBBBBBBB";
-
     private static final ContentType DEFAULT_CONTENT_TYPE = ContentType.ALPHABET;
     private static final ContentType UPDATED_CONTENT_TYPE = ContentType.NUMBER;
 
     private static final String DEFAULT_CONTENT_PREFIX = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT_PREFIX = "BBBBBBBBBB";
+
+    private static final ContentStyle DEFAULT_CONTENT_STYLE = ContentStyle.ITALICS;
+    private static final ContentStyle UPDATED_CONTENT_STYLE = ContentStyle.BOLD;
+
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
 
     @Autowired
     private TemplateRepository templateRepository;
@@ -95,9 +99,10 @@ public class TemplateResourceIntTest {
      */
     public static Template createEntity(EntityManager em) {
         Template template = new Template()
-            .style(DEFAULT_STYLE)
             .contentType(DEFAULT_CONTENT_TYPE)
-            .contentPrefix(DEFAULT_CONTENT_PREFIX);
+            .contentPrefix(DEFAULT_CONTENT_PREFIX)
+            .contentStyle(DEFAULT_CONTENT_STYLE)
+            .name(DEFAULT_NAME);
         return template;
     }
 
@@ -122,9 +127,10 @@ public class TemplateResourceIntTest {
         List<Template> templateList = templateRepository.findAll();
         assertThat(templateList).hasSize(databaseSizeBeforeCreate + 1);
         Template testTemplate = templateList.get(templateList.size() - 1);
-        assertThat(testTemplate.getStyle()).isEqualTo(DEFAULT_STYLE);
         assertThat(testTemplate.getContentType()).isEqualTo(DEFAULT_CONTENT_TYPE);
         assertThat(testTemplate.getContentPrefix()).isEqualTo(DEFAULT_CONTENT_PREFIX);
+        assertThat(testTemplate.getContentStyle()).isEqualTo(DEFAULT_CONTENT_STYLE);
+        assertThat(testTemplate.getName()).isEqualTo(DEFAULT_NAME);
     }
 
     @Test
@@ -168,6 +174,25 @@ public class TemplateResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = templateRepository.findAll().size();
+        // set the field null
+        template.setName(null);
+
+        // Create the Template, which fails.
+        TemplateDTO templateDTO = templateMapper.toDto(template);
+
+        restTemplateMockMvc.perform(post("/api/templates")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(templateDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Template> templateList = templateRepository.findAll();
+        assertThat(templateList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllTemplates() throws Exception {
         // Initialize the database
         templateRepository.saveAndFlush(template);
@@ -177,9 +202,10 @@ public class TemplateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(template.getId().intValue())))
-            .andExpect(jsonPath("$.[*].style").value(hasItem(DEFAULT_STYLE.toString())))
             .andExpect(jsonPath("$.[*].contentType").value(hasItem(DEFAULT_CONTENT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].contentPrefix").value(hasItem(DEFAULT_CONTENT_PREFIX.toString())));
+            .andExpect(jsonPath("$.[*].contentPrefix").value(hasItem(DEFAULT_CONTENT_PREFIX.toString())))
+            .andExpect(jsonPath("$.[*].contentStyle").value(hasItem(DEFAULT_CONTENT_STYLE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -193,9 +219,10 @@ public class TemplateResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(template.getId().intValue()))
-            .andExpect(jsonPath("$.style").value(DEFAULT_STYLE.toString()))
             .andExpect(jsonPath("$.contentType").value(DEFAULT_CONTENT_TYPE.toString()))
-            .andExpect(jsonPath("$.contentPrefix").value(DEFAULT_CONTENT_PREFIX.toString()));
+            .andExpect(jsonPath("$.contentPrefix").value(DEFAULT_CONTENT_PREFIX.toString()))
+            .andExpect(jsonPath("$.contentStyle").value(DEFAULT_CONTENT_STYLE.toString()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -218,9 +245,10 @@ public class TemplateResourceIntTest {
         // Disconnect from session so that the updates on updatedTemplate are not directly saved in db
         em.detach(updatedTemplate);
         updatedTemplate
-            .style(UPDATED_STYLE)
             .contentType(UPDATED_CONTENT_TYPE)
-            .contentPrefix(UPDATED_CONTENT_PREFIX);
+            .contentPrefix(UPDATED_CONTENT_PREFIX)
+            .contentStyle(UPDATED_CONTENT_STYLE)
+            .name(UPDATED_NAME);
         TemplateDTO templateDTO = templateMapper.toDto(updatedTemplate);
 
         restTemplateMockMvc.perform(put("/api/templates")
@@ -232,9 +260,10 @@ public class TemplateResourceIntTest {
         List<Template> templateList = templateRepository.findAll();
         assertThat(templateList).hasSize(databaseSizeBeforeUpdate);
         Template testTemplate = templateList.get(templateList.size() - 1);
-        assertThat(testTemplate.getStyle()).isEqualTo(UPDATED_STYLE);
         assertThat(testTemplate.getContentType()).isEqualTo(UPDATED_CONTENT_TYPE);
         assertThat(testTemplate.getContentPrefix()).isEqualTo(UPDATED_CONTENT_PREFIX);
+        assertThat(testTemplate.getContentStyle()).isEqualTo(UPDATED_CONTENT_STYLE);
+        assertThat(testTemplate.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test

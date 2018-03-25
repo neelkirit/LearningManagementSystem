@@ -42,4 +42,11 @@ public final class HeaderUtil {
         headers.add("X-amoghServerApp-params", entityName);
         return headers;
     }
+
+    public static HttpHeaders createUploadCourseAlert(String fileName, int numOfQuestions) {
+        HttpHeaders headers = new HttpHeaders();
+        String message = "Uploaded [" + numOfQuestions + "] exercise questions from file [" + fileName + "]";
+        headers.add("X-amoghServerApp-alert", message);
+        return headers;
+    }
 }

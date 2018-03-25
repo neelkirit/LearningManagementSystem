@@ -16,9 +16,10 @@
             "detail": {
                 "title": "Template"
             },
-            "style": "Style",
             "contentType": "Content Type",
-            "contentPrefix": "Content Prefix"
+            "contentPrefix": "Content Prefix",
+            "contentStyle": "Content Style",
+            "name": "Name"
         }
     }
 }

@@ -13,4 +13,11 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface TemplateRepository extends JpaRepository<Template, Long> {
 
+    /**
+     * Find the template with the given name
+     * @param templateName the template name
+     * @return Template object saved
+     */
+    Template findByName(String templateName);
+
 }

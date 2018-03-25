@@ -19,7 +19,6 @@
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contentType"><span jhiTranslate="amoghServerApp.exercise.contentType">Content Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="content"><span jhiTranslate="amoghServerApp.exercise.content">Content</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="contentPrefix"><span jhiTranslate="amoghServerApp.exercise.contentPrefix">Content Prefix</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="topicName"><span jhiTranslate="amoghServerApp.exercise.topic">Topic</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="templateId"><span jhiTranslate="amoghServerApp.exercise.template">Template</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -30,7 +29,6 @@
                 <td><a [routerLink]="['../exercise', exercise.id ]">{{exercise.id}}</a></td>
                 <td jhiTranslate="{{'amoghServerApp.ContentType.' + exercise.contentType}}">{{exercise.contentType}}</td>
                 <td>{{exercise.content}}</td>
-                <td>{{exercise.contentPrefix}}</td>
                 <td>
                     <div *ngIf="exercise.topicId">
                         <a [routerLink]="['../topic', exercise.topicId  ]" >{{exercise.topicName}}</a>

@@ -1,5 +1,7 @@
 package com.amogh.lms.service.impl;
 
+import com.amogh.lms.domain.Template;
+import com.amogh.lms.domain.enumeration.ContentType;
 import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.repository.ExerciseRepository;
@@ -82,5 +84,11 @@ public class ExerciseServiceImpl implements ExerciseService {
     public void delete(Long id) {
         log.debug("Request to delete Exercise : {}", id);
         exerciseRepository.delete(id);
+    }
+
+    @Override
+    public ExerciseDTO findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content) {
+        Exercise exercise = exerciseRepository.findByTemplateAndContentTypeAndContent(template, contentType, content);
+        return exerciseMapper.toDto(exercise);
     }
 }

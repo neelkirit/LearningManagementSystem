@@ -31,9 +31,6 @@ public class Exercise implements Serializable {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "content_prefix")
-    private String contentPrefix;
-
     @ManyToOne
     private Topic topic;
 
@@ -73,19 +70,6 @@ public class Exercise implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getContentPrefix() {
-        return contentPrefix;
-    }
-
-    public Exercise contentPrefix(String contentPrefix) {
-        this.contentPrefix = contentPrefix;
-        return this;
-    }
-
-    public void setContentPrefix(String contentPrefix) {
-        this.contentPrefix = contentPrefix;
     }
 
     public Topic getTopic() {
@@ -141,7 +125,6 @@ public class Exercise implements Serializable {
             "id=" + getId() +
             ", contentType='" + getContentType() + "'" +
             ", content='" + getContent() + "'" +
-            ", contentPrefix='" + getContentPrefix() + "'" +
             "}";
     }
 }

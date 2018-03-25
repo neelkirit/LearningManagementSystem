@@ -4,6 +4,7 @@ import com.amogh.lms.service.TemplateService;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.repository.TemplateRepository;
 import com.amogh.lms.service.dto.TemplateDTO;
+import com.amogh.lms.service.dto.TopicDTO;
 import com.amogh.lms.service.mapper.TemplateMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,5 +83,11 @@ public class TemplateServiceImpl implements TemplateService {
     public void delete(Long id) {
         log.debug("Request to delete Template : {}", id);
         templateRepository.delete(id);
+    }
+
+    @Override
+    public TemplateDTO findByName(String templateName) {
+        Template template = templateRepository.findByName(templateName);
+        return this.templateMapper.toDto(template);
     }
 }

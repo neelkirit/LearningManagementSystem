@@ -21,8 +21,6 @@ public class ExerciseDTO implements Serializable {
     @NotNull
     private String content;
 
-    private String contentPrefix;
-
     private Long topicId;
 
     private String topicName;
@@ -51,14 +49,6 @@ public class ExerciseDTO implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getContentPrefix() {
-        return contentPrefix;
-    }
-
-    public void setContentPrefix(String contentPrefix) {
-        this.contentPrefix = contentPrefix;
     }
 
     public Long getTopicId() {
@@ -112,7 +102,6 @@ public class ExerciseDTO implements Serializable {
             "id=" + getId() +
             ", contentType='" + getContentType() + "'" +
             ", content='" + getContent() + "'" +
-            ", contentPrefix='" + getContentPrefix() + "'" +
             "}";
     }
 }

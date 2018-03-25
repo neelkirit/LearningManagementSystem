@@ -3,11 +3,6 @@
     "relationships": [],
     "fields": [
         {
-            "fieldName": "style",
-            "fieldType": "String",
-            "fieldValidateRules": []
-        },
-        {
             "fieldName": "contentType",
             "fieldType": "ContentType",
             "fieldValues": "ALPHABET,NUMBER,CURRENCY,WORD",
@@ -18,6 +13,18 @@
         {
             "fieldName": "contentPrefix",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "contentStyle",
+            "fieldType": "ContentStyle",
+            "fieldValues": "ITALICS,BOLD,BOLD_ITALICS"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180315164245",

@@ -1,6 +1,8 @@
 package com.amogh.lms.service;
 
+import com.amogh.lms.domain.Topic;
 import com.amogh.lms.service.dto.TemplateDTO;
+import com.amogh.lms.service.dto.TopicDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +41,11 @@ public interface TemplateService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Finds the topic specified by the given name
+     * @param templateName the template name
+     * @return TemplateDTO object just saved
+     */
+    TemplateDTO findByName(String templateName);
 }

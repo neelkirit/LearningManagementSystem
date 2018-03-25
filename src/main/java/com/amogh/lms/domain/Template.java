@@ -9,6 +9,8 @@ import java.util.Objects;
 
 import com.amogh.lms.domain.enumeration.ContentType;
 
+import com.amogh.lms.domain.enumeration.ContentStyle;
+
 /**
  * A Template.
  */
@@ -22,9 +24,6 @@ public class Template implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "style")
-    private String style;
-
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type", nullable = false)
@@ -33,6 +32,14 @@ public class Template implements Serializable {
     @Column(name = "content_prefix")
     private String contentPrefix;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "content_style")
+    private ContentStyle contentStyle;
+
+    @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -40,19 +47,6 @@ public class Template implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getStyle() {
-        return style;
-    }
-
-    public Template style(String style) {
-        this.style = style;
-        return this;
-    }
-
-    public void setStyle(String style) {
-        this.style = style;
     }
 
     public ContentType getContentType() {
@@ -80,6 +74,32 @@ public class Template implements Serializable {
     public void setContentPrefix(String contentPrefix) {
         this.contentPrefix = contentPrefix;
     }
+
+    public ContentStyle getContentStyle() {
+        return contentStyle;
+    }
+
+    public Template contentStyle(ContentStyle contentStyle) {
+        this.contentStyle = contentStyle;
+        return this;
+    }
+
+    public void setContentStyle(ContentStyle contentStyle) {
+        this.contentStyle = contentStyle;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Template name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -106,9 +126,10 @@ public class Template implements Serializable {
     public String toString() {
         return "Template{" +
             "id=" + getId() +
-            ", style='" + getStyle() + "'" +
             ", contentType='" + getContentType() + "'" +
             ", contentPrefix='" + getContentPrefix() + "'" +
+            ", contentStyle='" + getContentStyle() + "'" +
+            ", name='" + getName() + "'" +
             "}";
     }
 }

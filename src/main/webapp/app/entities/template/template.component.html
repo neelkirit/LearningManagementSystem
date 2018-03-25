@@ -17,18 +17,20 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="style"><span jhiTranslate="amoghServerApp.template.style">Style</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contentType"><span jhiTranslate="amoghServerApp.template.contentType">Content Type</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="contentPrefix"><span jhiTranslate="amoghServerApp.template.contentPrefix">Content Prefix</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="contentStyle"><span jhiTranslate="amoghServerApp.template.contentStyle">Content Style</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="name"><span jhiTranslate="amoghServerApp.template.name">Name</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let template of templates ;trackBy: trackId">
                 <td><a [routerLink]="['../template', template.id ]">{{template.id}}</a></td>
-                <td>{{template.style}}</td>
                 <td jhiTranslate="{{'amoghServerApp.ContentType.' + template.contentType}}">{{template.contentType}}</td>
                 <td>{{template.contentPrefix}}</td>
+                <td jhiTranslate="{{'amoghServerApp.ContentStyle.' + template.contentStyle}}">{{template.contentStyle}}</td>
+                <td>{{template.name}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

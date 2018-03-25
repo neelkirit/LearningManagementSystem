@@ -48,9 +48,6 @@ public class ExerciseResourceIntTest {
     private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_CONTENT_PREFIX = "AAAAAAAAAA";
-    private static final String UPDATED_CONTENT_PREFIX = "BBBBBBBBBB";
-
     @Autowired
     private ExerciseRepository exerciseRepository;
 
@@ -96,8 +93,7 @@ public class ExerciseResourceIntTest {
     public static Exercise createEntity(EntityManager em) {
         Exercise exercise = new Exercise()
             .contentType(DEFAULT_CONTENT_TYPE)
-            .content(DEFAULT_CONTENT)
-            .contentPrefix(DEFAULT_CONTENT_PREFIX);
+            .content(DEFAULT_CONTENT);
         return exercise;
     }
 
@@ -124,7 +120,6 @@ public class ExerciseResourceIntTest {
         Exercise testExercise = exerciseList.get(exerciseList.size() - 1);
         assertThat(testExercise.getContentType()).isEqualTo(DEFAULT_CONTENT_TYPE);
         assertThat(testExercise.getContent()).isEqualTo(DEFAULT_CONTENT);
-        assertThat(testExercise.getContentPrefix()).isEqualTo(DEFAULT_CONTENT_PREFIX);
     }
 
     @Test
@@ -197,8 +192,7 @@ public class ExerciseResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(exercise.getId().intValue())))
             .andExpect(jsonPath("$.[*].contentType").value(hasItem(DEFAULT_CONTENT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
-            .andExpect(jsonPath("$.[*].contentPrefix").value(hasItem(DEFAULT_CONTENT_PREFIX.toString())));
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
     }
 
     @Test
@@ -213,8 +207,7 @@ public class ExerciseResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(exercise.getId().intValue()))
             .andExpect(jsonPath("$.contentType").value(DEFAULT_CONTENT_TYPE.toString()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
-            .andExpect(jsonPath("$.contentPrefix").value(DEFAULT_CONTENT_PREFIX.toString()));
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
     }
 
     @Test
@@ -238,8 +231,7 @@ public class ExerciseResourceIntTest {
         em.detach(updatedExercise);
         updatedExercise
             .contentType(UPDATED_CONTENT_TYPE)
-            .content(UPDATED_CONTENT)
-            .contentPrefix(UPDATED_CONTENT_PREFIX);
+            .content(UPDATED_CONTENT);
         ExerciseDTO exerciseDTO = exerciseMapper.toDto(updatedExercise);
 
         restExerciseMockMvc.perform(put("/api/exercises")
@@ -253,7 +245,6 @@ public class ExerciseResourceIntTest {
         Exercise testExercise = exerciseList.get(exerciseList.size() - 1);
         assertThat(testExercise.getContentType()).isEqualTo(UPDATED_CONTENT_TYPE);
         assertThat(testExercise.getContent()).isEqualTo(UPDATED_CONTENT);
-        assertThat(testExercise.getContentPrefix()).isEqualTo(UPDATED_CONTENT_PREFIX);
     }
 
     @Test

@@ -39,4 +39,11 @@ public interface TopicService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Finds the topic by name
+     * @param topicName the topic name
+     * @return TopicDTO object if found
+     */
+    TopicDTO findByName(String topicName);
 }

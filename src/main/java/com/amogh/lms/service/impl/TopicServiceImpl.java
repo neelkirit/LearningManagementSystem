@@ -83,4 +83,15 @@ public class TopicServiceImpl implements TopicService {
         log.debug("Request to delete Topic : {}", id);
         topicRepository.delete(id);
     }
+
+    /**
+     * Finds the topic by Name
+     * @param topicName the topic name
+     * @return TopicDTO object if found
+     */
+    @Override
+    public TopicDTO findByName(String topicName) {
+        Topic topic = topicRepository.findByName(topicName);
+        return topicMapper.toDto(topic);
+    }
 }

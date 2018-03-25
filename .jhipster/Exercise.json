@@ -29,10 +29,6 @@
             "fieldValidateRules": [
                 "required"
             ]
-        },
-        {
-            "fieldName": "contentPrefix",
-            "fieldType": "String"
         }
     ],
     "changelogDate": "20180315163908",

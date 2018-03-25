@@ -1,6 +1,8 @@
 package com.amogh.lms.repository;
 
 import com.amogh.lms.domain.Exercise;
+import com.amogh.lms.domain.Template;
+import com.amogh.lms.domain.enumeration.ContentType;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
@@ -13,4 +15,5 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
+    Exercise findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content);
 }
