@@ -1,5 +1,6 @@
 package com.amogh.lms.service.impl;
 
+import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.service.TopicService;
 import com.amogh.lms.domain.Topic;
 import com.amogh.lms.repository.TopicRepository;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 
 /**
@@ -93,5 +96,17 @@ public class TopicServiceImpl implements TopicService {
     public TopicDTO findByName(String topicName) {
         Topic topic = topicRepository.findByName(topicName);
         return topicMapper.toDto(topic);
+    }
+
+    /**
+     * Get all the topics.
+     *
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Topic> getAll()
+    {
+        return topicRepository.findAll();
     }
 }

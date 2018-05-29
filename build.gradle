@@ -210,6 +210,10 @@ dependencies {
     // Amogh dependencies
     compile "org.apache.poi:poi:3.17"
     compile "org.apache.poi:poi-ooxml:3.17"
+
+    compileOnly 'org.projectlombok:lombok:1.16.20'
+    apt "org.projectlombok:lombok:1.16.20"
+
 }
 
 task cleanResources(type: Delete) {

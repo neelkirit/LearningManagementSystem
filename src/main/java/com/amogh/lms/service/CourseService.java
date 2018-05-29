@@ -1,8 +1,11 @@
 package com.amogh.lms.service;
 
+import com.amogh.lms.domain.Course;
 import com.amogh.lms.service.dto.CourseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Service Interface for managing Course.
@@ -24,6 +27,12 @@ public interface CourseService {
      * @return the list of entities
      */
     Page<CourseDTO> findAll(Pageable pageable);
+
+    /**
+     * Get all the courses.*
+     * @return the list of entities
+     */
+    List<Course> getAll();
 
     /**
      * Get the "id" course.

@@ -1,8 +1,11 @@
 package com.amogh.lms.service;
 
+import com.amogh.lms.domain.ExerciseStats;
 import com.amogh.lms.service.dto.ExerciseStatsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Service Interface for managing ExerciseStats.
@@ -39,4 +42,9 @@ public interface ExerciseStatsService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Get the stats of a user
+     */
+    List<ExerciseStats> getUserStats();
 }

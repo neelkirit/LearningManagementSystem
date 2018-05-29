@@ -8,6 +8,7 @@ import com.amogh.lms.config.Constants;
 import com.amogh.lms.repository.UserRepository;
 import com.amogh.lms.security.AuthoritiesConstants;
 import com.amogh.lms.security.SecurityUtils;
+import com.amogh.lms.service.dto.UserStatsDTO;
 import com.amogh.lms.service.util.RandomUtil;
 import com.amogh.lms.service.dto.UserDTO;
 

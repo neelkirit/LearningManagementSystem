@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing Course.
@@ -57,6 +59,17 @@ public class CourseServiceImpl implements CourseService {
         log.debug("Request to get all Courses");
         return courseRepository.findAll(pageable)
             .map(courseMapper::toDto);
+    }
+
+    /**
+     * Get all the courses.*
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Course> getAll(){
+        log.debug("Request to get all Courses");
+        return courseRepository.findAll();
     }
 
     /**

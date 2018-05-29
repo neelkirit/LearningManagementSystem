@@ -1,8 +1,12 @@
 package com.amogh.lms.service;
 
+import com.amogh.lms.domain.Exercise;
+import com.amogh.lms.domain.Topic;
 import com.amogh.lms.service.dto.TopicDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 /**
  * Service Interface for managing Topic.
@@ -46,4 +50,10 @@ public interface TopicService {
      * @return TopicDTO object if found
      */
     TopicDTO findByName(String topicName);
+
+    /**
+     * Get all the topics.
+     * @return the list of topics
+     */
+    List<Topic> getAll();
 }

@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing ExerciseStats.
@@ -82,5 +84,12 @@ public class ExerciseStatsServiceImpl implements ExerciseStatsService {
     public void delete(Long id) {
         log.debug("Request to delete ExerciseStats : {}", id);
         exerciseStatsRepository.delete(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ExerciseStats> getUserStats()
+    {
+        return exerciseStatsRepository.findByUserIsCurrentUser();
     }
 }

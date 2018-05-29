@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing Exercise.
@@ -91,4 +93,17 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = exerciseRepository.findByTemplateAndContentTypeAndContent(template, contentType, content);
         return exerciseMapper.toDto(exercise);
     }
+
+    /**
+     * Get all the exercises.
+     *
+     * @return the list of exercises
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Exercise> getAll()
+    {
+        return exerciseRepository.findAll();
+    }
+
 }
