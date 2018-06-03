@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * Created by akhil raj azhikodan on 29/5/18.
+ * Created by anvitha bhat on 29/5/18.
  */
 @Service
 public class DashboardServiceImpl implements DashboardService
@@ -50,7 +50,7 @@ public class DashboardServiceImpl implements DashboardService
         List<ExerciseStats> exerciseStats = exerciseStatsService.getUserStats();
 
         long correctAnswers = exerciseStats.stream().filter(ExerciseStats::isStatus).count();
-        int progressPercent = (exerciseStats.size() != 0)? (int) ((correctAnswers / exerciseStats.size()) * 100) : 100;
+        int progressPercent = (exerciseStats.size() != 0)? (int) ((correctAnswers / exerciseStats.size()) * 100) : 0;
 
         Map<String, CourseStatDTO> courseStatsMap = new HashMap<>();
 
