@@ -1,8 +1,7 @@
 package com.amogh.lms.web.rest;
 
-import com.amogh.lms.service.dto.AssessmentExerciseDTO;
-import com.amogh.lms.service.dto.ExerciseDTO;
-import com.amogh.lms.service.dto.TopicDTO;
+import com.amogh.lms.service.TemplateService;
+import com.amogh.lms.service.dto.*;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.AssessmentService;
 import com.amogh.lms.service.TopicService;
@@ -10,7 +9,6 @@ import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
 import com.amogh.lms.web.rest.util.HeaderUtil;
 import com.amogh.lms.web.rest.util.PaginationUtil;
-import com.amogh.lms.service.dto.AssessmentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +26,7 @@ import java.net.URISyntaxException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing Assessment.
@@ -46,12 +45,13 @@ public class AssessmentResource {
     private final TopicService topicService;
     @Autowired
     private final ExerciseService exerciseService;
+    private final TemplateService templateService;
 
-
-    public AssessmentResource(AssessmentService assessmentService, TopicService topicService, ExerciseService exerciseService) {
+    public AssessmentResource(AssessmentService assessmentService, TopicService topicService, ExerciseService exerciseService, TemplateService templateService) {
         this.assessmentService = assessmentService;
         this.topicService = topicService;
         this.exerciseService = exerciseService;
+        this.templateService = templateService;
     }
 
     /**
@@ -125,10 +125,11 @@ public class AssessmentResource {
         List<TopicDTO> topicDTOList = topicService.findByCourseId(assessmentDTO.getCourseId());
 
         List<ExerciseDTO> exerciseDTOList = exerciseService.findByTopicDTOList(topicDTOList);
-
+        Set<TemplateDTO> templateDTOList = templateService.findByExerciseDTO(exerciseDTOList);
         AssessmentExerciseDTO assessmentExerciseDTO = new AssessmentExerciseDTO();
         assessmentExerciseDTO.setAssessmentDTO(assessmentDTO);
         assessmentExerciseDTO.setExerciseDTOList(exerciseDTOList);
+        assessmentExerciseDTO.setTemplateDTOList(templateDTOList);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentExerciseDTO));
     }
 

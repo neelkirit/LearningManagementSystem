@@ -6,6 +6,13 @@ public class AssessmentExerciseDTO {
 
     private AssessmentDTO assessmentDTO;
     private List<ExerciseDTO> exerciseDTOList;
+    private Set<TemplateDTO> templateDTOList;
+
+    public Set<TemplateDTO> getTemplateDTOList() {
+        return templateDTOList;
+    }
+
+
 
     public AssessmentDTO getAssessmentDTO() {
         return assessmentDTO;
@@ -22,4 +29,6 @@ public class AssessmentExerciseDTO {
     public void setExerciseDTOList(List<ExerciseDTO> exerciseDTOList) {
         this.exerciseDTOList = exerciseDTOList;
     }
+
+    public void setTemplateDTOList(Set<TemplateDTO> templateDTOList) { this.templateDTOList = templateDTOList;}
 }

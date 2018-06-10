@@ -3,6 +3,7 @@ package com.amogh.lms.service.impl;
 import com.amogh.lms.service.TemplateService;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.repository.TemplateRepository;
+import com.amogh.lms.service.dto.ExerciseDTO;
 import com.amogh.lms.service.dto.TemplateDTO;
 import com.amogh.lms.service.dto.TopicDTO;
 import com.amogh.lms.service.mapper.TemplateMapper;
@@ -12,6 +13,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -89,5 +95,14 @@ public class TemplateServiceImpl implements TemplateService {
     public TemplateDTO findByName(String templateName) {
         Template template = templateRepository.findByName(templateName);
         return this.templateMapper.toDto(template);
+    }
+
+    @Override
+    public Set<TemplateDTO> findByExerciseDTO(List<ExerciseDTO> exerciseDTOList) {
+        Set<TemplateDTO> templateDTOList = new HashSet();
+        for(ExerciseDTO exerciseDTO : exerciseDTOList){
+            templateDTOList.add(this.findOne(exerciseDTO.getTemplateId()));
+        }
+        return templateDTOList;
     }
 }
