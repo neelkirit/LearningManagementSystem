@@ -6,7 +6,11 @@ import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.repository.ExerciseRepository;
 import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.TopicDTO;
 import com.amogh.lms.service.mapper.ExerciseMapper;
+import java.util.*;
+
+import org.apache.commons.collections4.iterators.ArrayListIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -91,4 +95,20 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise exercise = exerciseRepository.findByTemplateAndContentTypeAndContent(template, contentType, content);
         return exerciseMapper.toDto(exercise);
     }
+
+    @Override
+    public List<ExerciseDTO> findByTopicId(Long topicId) {
+        List<Exercise> exerciseList = exerciseRepository.findByTopicId(topicId);
+        return exerciseMapper.toDto(exerciseList);
+    }
+
+    @Override
+    public List<ExerciseDTO> findByTopicDTOList(List<TopicDTO> topicDTOList) {
+        List<ExerciseDTO> exerciseDTOList = new ArrayList();
+        for (TopicDTO topicDTO : topicDTOList){
+            exerciseDTOList.addAll(this.findByTopicId(topicDTO.getId()));
+        }
+        return exerciseDTOList;
+    }
+
 }

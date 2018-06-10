@@ -1,8 +1,12 @@
 package com.amogh.lms.service;
 
+import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.domain.enumeration.ContentType;
 import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.TopicDTO;
+import java.util.*;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -50,4 +54,8 @@ public interface ExerciseService {
      * @return ExceriseDTO object
      */
     ExerciseDTO findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content);
+
+    List<ExerciseDTO> findByTopicId(Long topicId);
+
+    List<ExerciseDTO> findByTopicDTOList(List<TopicDTO> topicDTOList);
 }
