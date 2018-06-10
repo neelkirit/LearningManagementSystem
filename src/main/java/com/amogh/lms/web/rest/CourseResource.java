@@ -2,6 +2,7 @@ package com.amogh.lms.web.rest;
 
 import com.amogh.lms.ingester.Ingest;
 import com.amogh.lms.ingester.model.IngestModel;
+import com.amogh.lms.service.dto.TopicDTO;
 import com.amogh.lms.service.dto.UploadCourseDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.CourseService;
@@ -9,6 +10,7 @@ import com.amogh.lms.web.rest.errors.BadRequestAlertException;
 import com.amogh.lms.web.rest.util.HeaderUtil;
 import com.amogh.lms.web.rest.util.PaginationUtil;
 import com.amogh.lms.service.dto.CourseDTO;
+import com.amogh.lms.service.TopicService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +41,11 @@ public class CourseResource {
 
     private final CourseService courseService;
 
-    public CourseResource(CourseService courseService) {
+    private final TopicService topicService;
+
+    public CourseResource(CourseService courseService, TopicService topicService) {
         this.courseService = courseService;
+        this.topicService = topicService;
     }
 
     /**
@@ -56,6 +61,11 @@ public class CourseResource {
         log.debug("REST request to save Course : {}", courseDTO);
         if (courseDTO.getId() != null) {
             throw new BadRequestAlertException("A new course cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        CourseDTO course_dto = courseService.findByName(courseDTO.getName());
+        if (course_dto != null)
+        {
+            throw new BadRequestAlertException("Course alreay exists", ENTITY_NAME, "coursenameexists");
         }
         CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.created(new URI("/api/courses/" + result.getId()))
@@ -99,6 +109,14 @@ public class CourseResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/courses");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("/courses/topics")
+    @Timed
+    public ResponseEntity<List<TopicDTO>> getAllTopicsByCourse(@PathVariable Long id){
+        log.debug("REST request to get a page of topics for the given course");
+        List<TopicDTO> topic_ids = topicService.findByCourseId(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(topic_ids));
+            }
 
     /**
      * GET  /courses/:id : get the "id" course.

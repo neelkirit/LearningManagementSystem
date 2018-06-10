@@ -54,6 +54,14 @@ public class TopicResource {
         if (topicDTO.getId() != null) {
             throw new BadRequestAlertException("A new topic cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        Long course_id = topicDTO.getCourseId();
+        List<TopicDTO> topic_dtos = topicService.findByCourseId(course_id);
+        for( TopicDTO t: topic_dtos){
+            if( t.getName().equals(topicDTO.getName())){
+                throw new BadRequestAlertException("Topic already exists in this course", ENTITY_NAME, "topicexists");
+            }
+        }
+
         TopicDTO result = topicService.save(topicDTO);
         return ResponseEntity.created(new URI("/api/topics/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
