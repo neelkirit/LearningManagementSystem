@@ -2,6 +2,7 @@ package com.amogh.lms.repository;
 
 import com.amogh.lms.domain.Topic;
 import org.springframework.stereotype.Repository;
+import java.util.*;
 
 import org.springframework.data.jpa.repository.*;
 
@@ -19,5 +20,5 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
      * @return Topic object saved
      */
     Topic findByName(String topicName);
-
+    List<Topic> findByCourseId(Long courseId);
 }

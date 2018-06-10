@@ -5,6 +5,9 @@ import com.amogh.lms.domain.Topic;
 import com.amogh.lms.repository.TopicRepository;
 import com.amogh.lms.service.dto.TopicDTO;
 import com.amogh.lms.service.mapper.TopicMapper;
+import java.util.*;
+
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -93,5 +96,11 @@ public class TopicServiceImpl implements TopicService {
     public TopicDTO findByName(String topicName) {
         Topic topic = topicRepository.findByName(topicName);
         return topicMapper.toDto(topic);
+    }
+
+    @Override
+    public List<TopicDTO> findByCourseId(Long courseId) {
+        List<Topic> topicList = topicRepository.findByCourseId(courseId);
+        return topicMapper.toDto(topicList);
     }
 }

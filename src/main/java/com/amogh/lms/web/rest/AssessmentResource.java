@@ -1,7 +1,12 @@
 package com.amogh.lms.web.rest;
 
+import com.amogh.lms.service.dto.AssessmentExerciseDTO;
+import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.TopicDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.AssessmentService;
+import com.amogh.lms.service.TopicService;
+import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
 import com.amogh.lms.web.rest.util.HeaderUtil;
 import com.amogh.lms.web.rest.util.PaginationUtil;
@@ -9,6 +14,7 @@ import com.amogh.lms.service.dto.AssessmentDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -36,8 +42,16 @@ public class AssessmentResource {
 
     private final AssessmentService assessmentService;
 
-    public AssessmentResource(AssessmentService assessmentService) {
+    @Autowired
+    private final TopicService topicService;
+    @Autowired
+    private final ExerciseService exerciseService;
+
+
+    public AssessmentResource(AssessmentService assessmentService, TopicService topicService, ExerciseService exerciseService) {
         this.assessmentService = assessmentService;
+        this.topicService = topicService;
+        this.exerciseService = exerciseService;
     }
 
     /**
@@ -105,10 +119,17 @@ public class AssessmentResource {
      */
     @GetMapping("/assessments/{id}")
     @Timed
-    public ResponseEntity<AssessmentDTO> getAssessment(@PathVariable Long id) {
+    public ResponseEntity<AssessmentExerciseDTO> getAssessment(@PathVariable Long id) {
         log.debug("REST request to get Assessment : {}", id);
         AssessmentDTO assessmentDTO = assessmentService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentDTO));
+        List<TopicDTO> topicDTOList = topicService.findByCourseId(assessmentDTO.getCourseId());
+
+        List<ExerciseDTO> exerciseDTOList = exerciseService.findByTopicDTOList(topicDTOList);
+
+        AssessmentExerciseDTO assessmentExerciseDTO = new AssessmentExerciseDTO();
+        assessmentExerciseDTO.setAssessmentDTO(assessmentDTO);
+        assessmentExerciseDTO.setExerciseDTOList(exerciseDTOList);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentExerciseDTO));
     }
 
     /**
