@@ -1,10 +1,13 @@
 package com.amogh.lms.service;
 
 import com.amogh.lms.domain.Topic;
+import com.amogh.lms.service.dto.ExerciseDTO;
 import com.amogh.lms.service.dto.TemplateDTO;
 import com.amogh.lms.service.dto.TopicDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.*;
 
 /**
  * Service Interface for managing Template.
@@ -48,4 +51,6 @@ public interface TemplateService {
      * @return TemplateDTO object just saved
      */
     TemplateDTO findByName(String templateName);
+
+    Set<TemplateDTO> findByExerciseDTO(List<ExerciseDTO> exerciseDTOList);
 }
