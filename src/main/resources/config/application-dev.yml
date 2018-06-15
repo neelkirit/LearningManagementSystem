@@ -94,10 +94,10 @@ jhipster:
         version: V_1_1 # To use HTTP/2 you will need SSL support (see above the "server.ssl" configuration)
     # CORS is only enabled by default with the "dev" profile, so BrowserSync can access the API
     cors:
-        allowed-origins: "*"
-        allowed-methods: "*"
+        allowed-origins: "http://localhost:8100"
+        allowed-methods: "GET, PUT, POST, DELETE, OPTIONS"
         allowed-headers: "*"
-        exposed-headers: "Link,X-Total-Count"
+        exposed-headers: "Link,X-Total-Count,Authorization"
         allow-credentials: true
         max-age: 1800
     security:

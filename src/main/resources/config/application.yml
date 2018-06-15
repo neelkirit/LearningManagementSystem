@@ -55,7 +55,7 @@ security:
 server:
     session:
         cookie:
-            http-only: false
+            http-only: true
 
 info:
     project:
@@ -75,9 +75,9 @@ jhipster:
     # By default CORS is disabled. Uncomment to enable.
     cors:
         allowed-origins: "http://localhost:8100"
-        allowed-methods: "*"
+        allowed-methods: "GET, PUT, POST, DELETE, OPTIONS"
         allowed-headers: "*"
-        exposed-headers: "Link,X-Total-Count"
+        exposed-headers: "Link,X-Total-Count,Authorization"
         allow-credentials: true
         max-age: 1800
     mail:

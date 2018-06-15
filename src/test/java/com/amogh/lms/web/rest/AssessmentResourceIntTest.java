@@ -72,7 +72,7 @@ public class AssessmentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final AssessmentResource assessmentResource = new AssessmentResource(assessmentService);
+        final AssessmentResource assessmentResource = new AssessmentResource(assessmentService, null, null, null);
         this.restAssessmentMockMvc = MockMvcBuilders.standaloneSetup(assessmentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
