@@ -16,6 +16,8 @@ export class NotificationInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
+                console.log('Intercepted');
+                console.log(event);
                 const arr = event.headers.keys();
                 let alert = null;
                 let alertParams = null;
