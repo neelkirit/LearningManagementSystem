@@ -1,0 +1,51 @@
+
+{
+    "amoghServerApp": {
+        "aadharEnrollForm" : {
+            "home": {
+                "title": "AadharEnrollForms",
+                "createLabel": "नया Aadhar Enroll Form बनाएँ",
+                "createOrEditLabel": "Aadhar Enroll Form बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Aadhar Enroll Form [identifier: {{ param }}] तैयार है",
+            "updated": "एक Aadhar Enroll Form [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Aadhar Enroll Form [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Aadhar Enroll Form [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Aadhar Enroll Form"
+            },
+            "preEnrollmentID": "Pre Enrollment ID",
+            "tinNumber": "Tin Number",
+            "fullName": "Full Name",
+            "gender": "Gender",
+            "age": "Age",
+            "dob": "Dob",
+            "declared": "Declared",
+            "verified": "Verified",
+            "careOf": "Care Of",
+            "careOfName": "Care Of Name",
+            "houseNumber": "House Number",
+            "street": "Street",
+            "landmark": "Landmark",
+            "area": "Area",
+            "village": "Village",
+            "postOffice": "Post Office",
+            "district": "District",
+            "subDistrict": "Sub District",
+            "state": "State",
+            "email": "Email",
+            "modileNumber": "Modile Number",
+            "pinCode": "Pin Code",
+            "detailsOf": "Details Of",
+            "detailsOfName": "Details Of Name",
+            "aadharNumber": "Aadhar Number",
+            "verficationType": "Verfication Type",
+            "forDocumentBased": "For Document Based",
+            "forIntroducerBased": "For Introducer Based",
+            "forHoFBased": "For Ho F Based",
+            "imageUrl": "Image Url"
+        }
+    }
+}

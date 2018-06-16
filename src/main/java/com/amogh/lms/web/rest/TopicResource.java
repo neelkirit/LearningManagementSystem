@@ -132,4 +132,16 @@ public class TopicResource {
         topicService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    /**
+     * GET /topics/{courseId} : Get the topic given the course id
+     * @return list if topics for course id
+     */
+    @GetMapping("/topics/course/{courseId}")
+    @Timed
+    public ResponseEntity<List<TopicDTO>> getTopicsForCourseId(@PathVariable Long courseId) {
+        log.debug("REST request to get topics for a course id {}", courseId);
+        List<TopicDTO> topicsForCourseId = this.topicService.findByCourseId(courseId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(topicsForCourseId));
+    }
 }

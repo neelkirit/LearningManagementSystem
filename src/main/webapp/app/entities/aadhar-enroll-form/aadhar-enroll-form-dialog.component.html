@@ -1,0 +1,175 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myAadharEnrollFormLabel" jhiTranslate="amoghServerApp.aadharEnrollForm.home.createOrEditLabel">Create or edit a Aadhar Enroll Form</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!aadharEnrollForm.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="aadharEnrollForm.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.preEnrollmentID" for="field_preEnrollmentID">Pre Enrollment ID</label>
+            <input type="text" class="form-control" name="preEnrollmentID" id="field_preEnrollmentID"
+                [(ngModel)]="aadharEnrollForm.preEnrollmentID" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.tinNumber" for="field_tinNumber">Tin Number</label>
+            <input type="text" class="form-control" name="tinNumber" id="field_tinNumber"
+                [(ngModel)]="aadharEnrollForm.tinNumber" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.fullName" for="field_fullName">Full Name</label>
+            <input type="text" class="form-control" name="fullName" id="field_fullName"
+                [(ngModel)]="aadharEnrollForm.fullName" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.gender" for="field_gender">Gender</label>
+            <input type="text" class="form-control" name="gender" id="field_gender"
+                [(ngModel)]="aadharEnrollForm.gender" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.age" for="field_age">Age</label>
+            <input type="text" class="form-control" name="age" id="field_age"
+                [(ngModel)]="aadharEnrollForm.age" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.dob" for="field_dob">Dob</label>
+            <input type="text" class="form-control" name="dob" id="field_dob"
+                [(ngModel)]="aadharEnrollForm.dob" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.declared" for="field_declared">Declared</label>
+            <input type="text" class="form-control" name="declared" id="field_declared"
+                [(ngModel)]="aadharEnrollForm.declared" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.verified" for="field_verified">Verified</label>
+            <input type="text" class="form-control" name="verified" id="field_verified"
+                [(ngModel)]="aadharEnrollForm.verified" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.careOf" for="field_careOf">Care Of</label>
+            <input type="text" class="form-control" name="careOf" id="field_careOf"
+                [(ngModel)]="aadharEnrollForm.careOf" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.careOfName" for="field_careOfName">Care Of Name</label>
+            <input type="text" class="form-control" name="careOfName" id="field_careOfName"
+                [(ngModel)]="aadharEnrollForm.careOfName" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.houseNumber" for="field_houseNumber">House Number</label>
+            <input type="text" class="form-control" name="houseNumber" id="field_houseNumber"
+                [(ngModel)]="aadharEnrollForm.houseNumber" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.street" for="field_street">Street</label>
+            <input type="text" class="form-control" name="street" id="field_street"
+                [(ngModel)]="aadharEnrollForm.street" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.landmark" for="field_landmark">Landmark</label>
+            <input type="text" class="form-control" name="landmark" id="field_landmark"
+                [(ngModel)]="aadharEnrollForm.landmark" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.area" for="field_area">Area</label>
+            <input type="text" class="form-control" name="area" id="field_area"
+                [(ngModel)]="aadharEnrollForm.area" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.village" for="field_village">Village</label>
+            <input type="text" class="form-control" name="village" id="field_village"
+                [(ngModel)]="aadharEnrollForm.village" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.postOffice" for="field_postOffice">Post Office</label>
+            <input type="text" class="form-control" name="postOffice" id="field_postOffice"
+                [(ngModel)]="aadharEnrollForm.postOffice" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.district" for="field_district">District</label>
+            <input type="text" class="form-control" name="district" id="field_district"
+                [(ngModel)]="aadharEnrollForm.district" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.subDistrict" for="field_subDistrict">Sub District</label>
+            <input type="text" class="form-control" name="subDistrict" id="field_subDistrict"
+                [(ngModel)]="aadharEnrollForm.subDistrict" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.state" for="field_state">State</label>
+            <input type="text" class="form-control" name="state" id="field_state"
+                [(ngModel)]="aadharEnrollForm.state" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.email" for="field_email">Email</label>
+            <input type="text" class="form-control" name="email" id="field_email"
+                [(ngModel)]="aadharEnrollForm.email" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.modileNumber" for="field_modileNumber">Modile Number</label>
+            <input type="text" class="form-control" name="modileNumber" id="field_modileNumber"
+                [(ngModel)]="aadharEnrollForm.modileNumber" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.pinCode" for="field_pinCode">Pin Code</label>
+            <input type="text" class="form-control" name="pinCode" id="field_pinCode"
+                [(ngModel)]="aadharEnrollForm.pinCode" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.detailsOf" for="field_detailsOf">Details Of</label>
+            <input type="text" class="form-control" name="detailsOf" id="field_detailsOf"
+                [(ngModel)]="aadharEnrollForm.detailsOf" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.detailsOfName" for="field_detailsOfName">Details Of Name</label>
+            <input type="text" class="form-control" name="detailsOfName" id="field_detailsOfName"
+                [(ngModel)]="aadharEnrollForm.detailsOfName" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.aadharNumber" for="field_aadharNumber">Aadhar Number</label>
+            <input type="text" class="form-control" name="aadharNumber" id="field_aadharNumber"
+                [(ngModel)]="aadharEnrollForm.aadharNumber" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.verficationType" for="field_verficationType">Verfication Type</label>
+            <input type="text" class="form-control" name="verficationType" id="field_verficationType"
+                [(ngModel)]="aadharEnrollForm.verficationType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.forDocumentBased" for="field_forDocumentBased">For Document Based</label>
+            <input type="text" class="form-control" name="forDocumentBased" id="field_forDocumentBased"
+                [(ngModel)]="aadharEnrollForm.forDocumentBased" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.forIntroducerBased" for="field_forIntroducerBased">For Introducer Based</label>
+            <input type="text" class="form-control" name="forIntroducerBased" id="field_forIntroducerBased"
+                [(ngModel)]="aadharEnrollForm.forIntroducerBased" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.forHoFBased" for="field_forHoFBased">For Ho F Based</label>
+            <input type="text" class="form-control" name="forHoFBased" id="field_forHoFBased"
+                [(ngModel)]="aadharEnrollForm.forHoFBased" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.aadharEnrollForm.imageUrl" for="field_imageUrl">Image Url</label>
+            <input type="text" class="form-control" name="imageUrl" id="field_imageUrl"
+                [(ngModel)]="aadharEnrollForm.imageUrl" />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

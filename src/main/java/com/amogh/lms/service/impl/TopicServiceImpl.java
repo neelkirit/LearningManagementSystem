@@ -98,6 +98,11 @@ public class TopicServiceImpl implements TopicService {
         return topicMapper.toDto(topic);
     }
 
+    /**
+     * Find the topic given the topic id
+     * @param courseId the course id
+     * @return List of topic objects
+     */
     @Override
     public List<TopicDTO> findByCourseId(Long courseId) {
         List<Topic> topicList = topicRepository.findByCourseId(courseId);

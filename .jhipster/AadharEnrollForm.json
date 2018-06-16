@@ -1,0 +1,132 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "preEnrollmentID",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "tinNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "fullName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "gender",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "age",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "dob",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "declared",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "verified",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "careOf",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "careOfName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "houseNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "street",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "landmark",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "area",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "village",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "postOffice",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "district",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "subDistrict",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "modileNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "pinCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "detailsOf",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "detailsOfName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "aadharNumber",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "verficationType",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "forDocumentBased",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "forIntroducerBased",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "forHoFBased",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "imageUrl",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180616204726",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "aadhar_enroll_form",
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

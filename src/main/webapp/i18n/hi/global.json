@@ -14,6 +14,7 @@
                 "assessment": "Assessment",
                 "assessmentStats": "Assessment Stats",
                 "exerciseStats": "Exercise Stats",
+                "aadharEnrollForm": "Aadhar Enroll Form",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

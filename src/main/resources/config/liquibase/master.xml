@@ -12,6 +12,7 @@
     <include file="config/liquibase/changelog/20180315164829_added_entity_Assessment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180315165313_added_entity_AssessmentStats.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180315165656_added_entity_ExerciseStats.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180616204726_added_entity_AadharEnrollForm.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180315163016_added_entity_constraints_Topic.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180315163908_added_entity_constraints_Exercise.xml" relativeToChangelogFile="false"/>

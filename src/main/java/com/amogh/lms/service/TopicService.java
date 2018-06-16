@@ -49,5 +49,10 @@ public interface TopicService {
      */
     TopicDTO findByName(String topicName);
 
+    /**
+     * Find the topics given the topic id
+     * @param courseId the course id
+     * @return List of topic DTO objects
+     */
     List<TopicDTO> findByCourseId(Long courseId);
 }

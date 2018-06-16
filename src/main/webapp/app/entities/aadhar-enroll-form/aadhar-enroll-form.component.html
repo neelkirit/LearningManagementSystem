@@ -1,0 +1,116 @@
+<div>
+    <h2>
+        <span jhiTranslate="amoghServerApp.aadharEnrollForm.home.title">Aadhar Enroll Forms</span>
+        <button class="btn btn-primary float-right jh-create-entity create-aadhar-enroll-form" [routerLink]="['/', { outlets: { popup: ['aadhar-enroll-form-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="amoghServerApp.aadharEnrollForm.home.createLabel">
+            Create new Aadhar Enroll Form
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="aadharEnrollForms">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.preEnrollmentID">Pre Enrollment ID</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.tinNumber">Tin Number</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.fullName">Full Name</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.gender">Gender</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.age">Age</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.dob">Dob</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.declared">Declared</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.verified">Verified</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.careOf">Care Of</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.careOfName">Care Of Name</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.houseNumber">House Number</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.street">Street</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.landmark">Landmark</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.area">Area</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.village">Village</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.postOffice">Post Office</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.district">District</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.subDistrict">Sub District</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.state">State</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.email">Email</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.modileNumber">Modile Number</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.pinCode">Pin Code</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.detailsOf">Details Of</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.detailsOfName">Details Of Name</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.aadharNumber">Aadhar Number</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.verficationType">Verfication Type</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.forDocumentBased">For Document Based</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.forIntroducerBased">For Introducer Based</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.forHoFBased">For Ho F Based</span></th>
+            <th><span jhiTranslate="amoghServerApp.aadharEnrollForm.imageUrl">Image Url</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let aadharEnrollForm of aadharEnrollForms ;trackBy: trackId">
+                <td><a [routerLink]="['../aadhar-enroll-form', aadharEnrollForm.id ]">{{aadharEnrollForm.id}}</a></td>
+                <td>{{aadharEnrollForm.preEnrollmentID}}</td>
+                <td>{{aadharEnrollForm.tinNumber}}</td>
+                <td>{{aadharEnrollForm.fullName}}</td>
+                <td>{{aadharEnrollForm.gender}}</td>
+                <td>{{aadharEnrollForm.age}}</td>
+                <td>{{aadharEnrollForm.dob}}</td>
+                <td>{{aadharEnrollForm.declared}}</td>
+                <td>{{aadharEnrollForm.verified}}</td>
+                <td>{{aadharEnrollForm.careOf}}</td>
+                <td>{{aadharEnrollForm.careOfName}}</td>
+                <td>{{aadharEnrollForm.houseNumber}}</td>
+                <td>{{aadharEnrollForm.street}}</td>
+                <td>{{aadharEnrollForm.landmark}}</td>
+                <td>{{aadharEnrollForm.area}}</td>
+                <td>{{aadharEnrollForm.village}}</td>
+                <td>{{aadharEnrollForm.postOffice}}</td>
+                <td>{{aadharEnrollForm.district}}</td>
+                <td>{{aadharEnrollForm.subDistrict}}</td>
+                <td>{{aadharEnrollForm.state}}</td>
+                <td>{{aadharEnrollForm.email}}</td>
+                <td>{{aadharEnrollForm.modileNumber}}</td>
+                <td>{{aadharEnrollForm.pinCode}}</td>
+                <td>{{aadharEnrollForm.detailsOf}}</td>
+                <td>{{aadharEnrollForm.detailsOfName}}</td>
+                <td>{{aadharEnrollForm.aadharNumber}}</td>
+                <td>{{aadharEnrollForm.verficationType}}</td>
+                <td>{{aadharEnrollForm.forDocumentBased}}</td>
+                <td>{{aadharEnrollForm.forIntroducerBased}}</td>
+                <td>{{aadharEnrollForm.forHoFBased}}</td>
+                <td>{{aadharEnrollForm.imageUrl}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../aadhar-enroll-form', aadharEnrollForm.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'aadhar-enroll-form/'+ aadharEnrollForm.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'aadhar-enroll-form/'+ aadharEnrollForm.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

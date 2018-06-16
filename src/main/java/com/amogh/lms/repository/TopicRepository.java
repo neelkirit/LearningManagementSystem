@@ -20,5 +20,11 @@ public interface TopicRepository extends JpaRepository<Topic, Long> {
      * @return Topic object saved
      */
     Topic findByName(String topicName);
+
+    /**
+     * Find the topic given the topic id
+     * @param courseId the course id
+     * @return List of topic objects
+     */
     List<Topic> findByCourseId(Long courseId);
 }
