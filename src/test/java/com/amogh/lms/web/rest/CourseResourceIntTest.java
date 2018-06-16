@@ -44,6 +44,12 @@ public class CourseResourceIntTest {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final String DEFAULT_ICON = "AAAAAAAAAA";
+    private static final String UPDATED_ICON = "BBBBBBBBBB";
+
     @Autowired
     private CourseRepository courseRepository;
 
@@ -72,7 +78,7 @@ public class CourseResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final CourseResource courseResource = new CourseResource(courseService, null);
+        final CourseResource courseResource = new CourseResource(courseService);
         this.restCourseMockMvc = MockMvcBuilders.standaloneSetup(courseResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -88,7 +94,9 @@ public class CourseResourceIntTest {
      */
     public static Course createEntity(EntityManager em) {
         Course course = new Course()
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .description(DEFAULT_DESCRIPTION)
+            .icon(DEFAULT_ICON);
         return course;
     }
 
@@ -114,6 +122,8 @@ public class CourseResourceIntTest {
         assertThat(courseList).hasSize(databaseSizeBeforeCreate + 1);
         Course testCourse = courseList.get(courseList.size() - 1);
         assertThat(testCourse.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testCourse.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testCourse.getIcon()).isEqualTo(DEFAULT_ICON);
     }
 
     @Test
@@ -166,7 +176,9 @@ public class CourseResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(course.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].icon").value(hasItem(DEFAULT_ICON.toString())));
     }
 
     @Test
@@ -180,7 +192,9 @@ public class CourseResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(course.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.icon").value(DEFAULT_ICON.toString()));
     }
 
     @Test
@@ -203,7 +217,9 @@ public class CourseResourceIntTest {
         // Disconnect from session so that the updates on updatedCourse are not directly saved in db
         em.detach(updatedCourse);
         updatedCourse
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .description(UPDATED_DESCRIPTION)
+            .icon(UPDATED_ICON);
         CourseDTO courseDTO = courseMapper.toDto(updatedCourse);
 
         restCourseMockMvc.perform(put("/api/courses")
@@ -216,6 +232,8 @@ public class CourseResourceIntTest {
         assertThat(courseList).hasSize(databaseSizeBeforeUpdate);
         Course testCourse = courseList.get(courseList.size() - 1);
         assertThat(testCourse.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testCourse.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testCourse.getIcon()).isEqualTo(UPDATED_ICON);
     }
 
     @Test

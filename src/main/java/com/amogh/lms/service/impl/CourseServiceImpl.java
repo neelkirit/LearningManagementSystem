@@ -73,12 +73,6 @@ public class CourseServiceImpl implements CourseService {
         return courseMapper.toDto(course);
     }
 
-    @Override
-    public CourseDTO findByName(String courseName) {
-        Course course = courseRepository.findByName(courseName);
-        return courseMapper.toDto(course);
-    }
-
     /**
      * Delete the course by id.
      *
@@ -88,5 +82,12 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Long id) {
         log.debug("Request to delete Course : {}", id);
         courseRepository.delete(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public CourseDTO findByName(String name) {
+        Course course = courseRepository.findByName(name);
+        return courseMapper.toDto(course);
     }
 }

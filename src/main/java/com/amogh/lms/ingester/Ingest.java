@@ -82,7 +82,7 @@ public class Ingest implements IBaseIngester {
             String templateName = ingestModel.getTemplateName();
             TemplateDTO templateDTO = this.templateService.findByName(templateName);
             if (templateDTO != null) {
-                this.saveExercise(ingestModel.getContent(), ingestModel.getContentType(), topicDTO, templateDTO);
+                this.saveExercise(ingestModel.getContent(), ingestModel.getAnswer(), ingestModel.getContentType(), topicDTO, templateDTO);
             }
         }
     }
@@ -146,6 +146,7 @@ public class Ingest implements IBaseIngester {
      */
     private ExerciseDTO saveExercise(
         String content,
+        String answer,
         ContentType contentType,
         TopicDTO topicDTO,
         TemplateDTO templateDTO
@@ -170,6 +171,7 @@ public class Ingest implements IBaseIngester {
             exerciseDTO.setContentType(contentType);
             exerciseDTO.setTemplateId(templateDTO.getId());
             exerciseDTO.setTopicId(topicDTO.getId());
+            exerciseDTO.setAnswer(answer);
             exerciseDTO = this.exerciseService.save(exerciseDTO);
             if (exerciseDTO == null) {
                 System.out.println("Saved the exercise successfully..");

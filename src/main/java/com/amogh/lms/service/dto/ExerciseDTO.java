@@ -21,6 +21,9 @@ public class ExerciseDTO implements Serializable {
     @NotNull
     private String content;
 
+    @NotNull
+    private String answer;
+
     private Long topicId;
 
     private String topicName;
@@ -49,6 +52,14 @@ public class ExerciseDTO implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Long getTopicId() {
@@ -102,6 +113,7 @@ public class ExerciseDTO implements Serializable {
             "id=" + getId() +
             ", contentType='" + getContentType() + "'" +
             ", content='" + getContent() + "'" +
+            ", answer='" + getAnswer() + "'" +
             "}";
     }
 }

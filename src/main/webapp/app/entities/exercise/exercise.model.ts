@@ -12,6 +12,7 @@ export class Exercise implements BaseEntity {
         public id?: number,
         public contentType?: ContentType,
         public content?: string,
+        public answer?: string,
         public topicId?: number,
         public templateId?: number,
     ) {

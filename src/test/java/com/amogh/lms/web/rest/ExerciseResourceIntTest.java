@@ -48,6 +48,9 @@ public class ExerciseResourceIntTest {
     private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
     private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ANSWER = "AAAAAAAAAA";
+    private static final String UPDATED_ANSWER = "BBBBBBBBBB";
+
     @Autowired
     private ExerciseRepository exerciseRepository;
 
@@ -93,7 +96,8 @@ public class ExerciseResourceIntTest {
     public static Exercise createEntity(EntityManager em) {
         Exercise exercise = new Exercise()
             .contentType(DEFAULT_CONTENT_TYPE)
-            .content(DEFAULT_CONTENT);
+            .content(DEFAULT_CONTENT)
+            .answer(DEFAULT_ANSWER);
         return exercise;
     }
 
@@ -120,6 +124,7 @@ public class ExerciseResourceIntTest {
         Exercise testExercise = exerciseList.get(exerciseList.size() - 1);
         assertThat(testExercise.getContentType()).isEqualTo(DEFAULT_CONTENT_TYPE);
         assertThat(testExercise.getContent()).isEqualTo(DEFAULT_CONTENT);
+        assertThat(testExercise.getAnswer()).isEqualTo(DEFAULT_ANSWER);
     }
 
     @Test
@@ -182,6 +187,25 @@ public class ExerciseResourceIntTest {
 
     @Test
     @Transactional
+    public void checkAnswerIsRequired() throws Exception {
+        int databaseSizeBeforeTest = exerciseRepository.findAll().size();
+        // set the field null
+        exercise.setAnswer(null);
+
+        // Create the Exercise, which fails.
+        ExerciseDTO exerciseDTO = exerciseMapper.toDto(exercise);
+
+        restExerciseMockMvc.perform(post("/api/exercises")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(exerciseDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Exercise> exerciseList = exerciseRepository.findAll();
+        assertThat(exerciseList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllExercises() throws Exception {
         // Initialize the database
         exerciseRepository.saveAndFlush(exercise);
@@ -192,7 +216,8 @@ public class ExerciseResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(exercise.getId().intValue())))
             .andExpect(jsonPath("$.[*].contentType").value(hasItem(DEFAULT_CONTENT_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())))
+            .andExpect(jsonPath("$.[*].answer").value(hasItem(DEFAULT_ANSWER.toString())));
     }
 
     @Test
@@ -207,7 +232,8 @@ public class ExerciseResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(exercise.getId().intValue()))
             .andExpect(jsonPath("$.contentType").value(DEFAULT_CONTENT_TYPE.toString()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
+            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
+            .andExpect(jsonPath("$.answer").value(DEFAULT_ANSWER.toString()));
     }
 
     @Test
@@ -231,7 +257,8 @@ public class ExerciseResourceIntTest {
         em.detach(updatedExercise);
         updatedExercise
             .contentType(UPDATED_CONTENT_TYPE)
-            .content(UPDATED_CONTENT);
+            .content(UPDATED_CONTENT)
+            .answer(UPDATED_ANSWER);
         ExerciseDTO exerciseDTO = exerciseMapper.toDto(updatedExercise);
 
         restExerciseMockMvc.perform(put("/api/exercises")
@@ -245,6 +272,7 @@ public class ExerciseResourceIntTest {
         Exercise testExercise = exerciseList.get(exerciseList.size() - 1);
         assertThat(testExercise.getContentType()).isEqualTo(UPDATED_CONTENT_TYPE);
         assertThat(testExercise.getContent()).isEqualTo(UPDATED_CONTENT);
+        assertThat(testExercise.getAnswer()).isEqualTo(UPDATED_ANSWER);
     }
 
     @Test

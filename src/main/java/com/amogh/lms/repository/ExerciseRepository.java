@@ -3,10 +3,11 @@ package com.amogh.lms.repository;
 import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.domain.enumeration.ContentType;
-import java.util.*;
 import org.springframework.stereotype.Repository;
 
 import org.springframework.data.jpa.repository.*;
+
+import java.util.List;
 
 
 /**

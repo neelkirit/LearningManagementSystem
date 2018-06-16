@@ -18,6 +18,7 @@
             },
             "contentType": "Content Type",
             "content": "Content",
+            "answer": "Answer",
             "topic": "Topic",
             "template": "Template"
         }

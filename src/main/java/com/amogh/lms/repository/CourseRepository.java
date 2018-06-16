@@ -13,6 +13,10 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
-    Course findByName(String courseName);
-
+    /**
+     * Finds the course by the name
+     * @param name the course name
+     * @return Course entity object
+     */
+    Course findByName(String name);
 }

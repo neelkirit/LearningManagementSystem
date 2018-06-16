@@ -38,6 +38,17 @@
                 </small>
             </div>
         </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="amoghServerApp.exercise.answer" for="field_answer">Answer</label>
+            <input type="text" class="form-control" name="answer" id="field_answer"
+                [(ngModel)]="exercise.answer" required/>
+            <div [hidden]="!(editForm.controls.answer?.dirty && editForm.controls.answer?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.answer?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
 
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="amoghServerApp.exercise.topic" for="field_topic">Topic</label>

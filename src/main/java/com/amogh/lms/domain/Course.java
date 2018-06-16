@@ -24,6 +24,12 @@ public class Course implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "icon")
+    private String icon;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -44,6 +50,32 @@ public class Course implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Course description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public Course icon(String icon) {
+        this.icon = icon;
+        return this;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -72,6 +104,8 @@ public class Course implements Serializable {
         return "Course{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", icon='" + getIcon() + "'" +
             "}";
     }
 }

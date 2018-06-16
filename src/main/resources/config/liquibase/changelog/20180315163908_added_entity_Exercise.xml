@@ -30,6 +30,10 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="answer" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+
             <column name="topic_id" type="bigint">
                 <constraints nullable="true" />
             </column>

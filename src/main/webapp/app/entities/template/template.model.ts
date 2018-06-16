@@ -4,13 +4,18 @@ export const enum ContentType {
     'ALPHABET',
     'NUMBER',
     'CURRENCY',
-    'WORD'
+    'WORD',
+    'SENTENCE',
+    'CHECKBOX',
+    'RADIOBUTTON'
 }
 
 export const enum ContentStyle {
     'ITALICS',
     'BOLD',
-    'BOLD_ITALICS'
+    'BOLD_ITALICS',
+    'CAPITALS',
+    'NORMAL'
 }
 
 export class Template implements BaseEntity {

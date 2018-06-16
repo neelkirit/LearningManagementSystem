@@ -33,18 +33,19 @@ public interface CourseService {
      */
     CourseDTO findOne(Long id);
 
-
-    /**
-     * Returns the course found matching the name
-     * @param courseName - the course name
-     * @return CourseDTO object
-     */
-    CourseDTO findByName(String courseName);
-
     /**
      * Delete the "id" course.
      *
      * @param id the id of the entity
      */
     void delete(Long id);
+
+
+
+    /**
+     * Finds the course by the name
+     * @param name the course name
+     * @return CourseDTO entity object
+     */
+    CourseDTO findByName(String name);
 }

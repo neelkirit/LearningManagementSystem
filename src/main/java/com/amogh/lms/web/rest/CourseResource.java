@@ -1,17 +1,13 @@
 package com.amogh.lms.web.rest;
 
-import com.amogh.lms.ingester.Ingest;
-import com.amogh.lms.ingester.model.IngestModel;
-import com.amogh.lms.service.dto.TopicDTO;
-import com.amogh.lms.service.dto.UploadCourseDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.CourseService;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
 import com.amogh.lms.web.rest.util.HeaderUtil;
 import com.amogh.lms.web.rest.util.PaginationUtil;
 import com.amogh.lms.service.dto.CourseDTO;
-import com.amogh.lms.service.TopicService;
 import io.github.jhipster.web.util.ResponseUtil;
+import io.undertow.util.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -41,11 +37,8 @@ public class CourseResource {
 
     private final CourseService courseService;
 
-    private final TopicService topicService;
-
-    public CourseResource(CourseService courseService, TopicService topicService) {
+    public CourseResource(CourseService courseService) {
         this.courseService = courseService;
-        this.topicService = topicService;
     }
 
     /**
@@ -62,12 +55,13 @@ public class CourseResource {
         if (courseDTO.getId() != null) {
             throw new BadRequestAlertException("A new course cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        CourseDTO course_dto = courseService.findByName(courseDTO.getName());
-        if (course_dto != null)
-        {
-            throw new BadRequestAlertException("Course alreay exists", ENTITY_NAME, "coursenameexists");
+        CourseDTO existingCourseDTO = courseService.findByName(courseDTO.getName());
+        CourseDTO result = null;
+        if (existingCourseDTO == null) {
+            result = courseService.save(courseDTO);
+        } else {
+            result = existingCourseDTO;
         }
-        CourseDTO result = courseService.save(courseDTO);
         return ResponseEntity.created(new URI("/api/courses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -110,14 +104,6 @@ public class CourseResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    @GetMapping("/courses/topics")
-    @Timed
-    public ResponseEntity<List<TopicDTO>> getAllTopicsByCourse(@PathVariable Long id){
-        log.debug("REST request to get a page of topics for the given course");
-        List<TopicDTO> topic_ids = topicService.findByCourseId(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(topic_ids));
-            }
-
     /**
      * GET  /courses/:id : get the "id" course.
      *
@@ -144,15 +130,5 @@ public class CourseResource {
         log.debug("REST request to delete Course : {}", id);
         courseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
-    }
-
-    @PutMapping("/courses/upload")
-    public ResponseEntity<List<IngestModel>> uploadExercisesForCourse(@Valid @RequestBody UploadCourseDTO uploadCourseDTO) throws URISyntaxException {
-        Ingest ingest = new Ingest();
-        List<IngestModel> ingestModels = ingest.process(uploadCourseDTO.getFilePath());
-        System.out.println("Founds [" + ingestModels.size() + "] exercise questions to upload..");
-        ingest.persist(ingestModels);
-        return ResponseEntity.ok().headers(HeaderUtil.createUploadCourseAlert(uploadCourseDTO.getFilePath(), ingestModels.size()))
-            .body(ingestModels);
     }
 }

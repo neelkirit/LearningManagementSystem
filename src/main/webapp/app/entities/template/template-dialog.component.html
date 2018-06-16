@@ -19,6 +19,9 @@
                 <option value="NUMBER">{{'amoghServerApp.ContentType.NUMBER' | translate}}</option>
                 <option value="CURRENCY">{{'amoghServerApp.ContentType.CURRENCY' | translate}}</option>
                 <option value="WORD">{{'amoghServerApp.ContentType.WORD' | translate}}</option>
+                <option value="SENTENCE">{{'amoghServerApp.ContentType.SENTENCE' | translate}}</option>
+                <option value="CHECKBOX">{{'amoghServerApp.ContentType.CHECKBOX' | translate}}</option>
+                <option value="RADIOBUTTON">{{'amoghServerApp.ContentType.RADIOBUTTON' | translate}}</option>
             </select>
             <div [hidden]="!(editForm.controls.contentType?.dirty && editForm.controls.contentType?.invalid)">
                 <small class="form-text text-danger"
@@ -38,6 +41,8 @@
                 <option value="ITALICS">{{'amoghServerApp.ContentStyle.ITALICS' | translate}}</option>
                 <option value="BOLD">{{'amoghServerApp.ContentStyle.BOLD' | translate}}</option>
                 <option value="BOLD_ITALICS">{{'amoghServerApp.ContentStyle.BOLD_ITALICS' | translate}}</option>
+                <option value="CAPITALS">{{'amoghServerApp.ContentStyle.CAPITALS' | translate}}</option>
+                <option value="NORMAL">{{'amoghServerApp.ContentStyle.NORMAL' | translate}}</option>
             </select>
         </div>
         <div class="form-group">

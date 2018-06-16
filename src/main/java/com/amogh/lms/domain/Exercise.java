@@ -31,6 +31,10 @@ public class Exercise implements Serializable {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @NotNull
+    @Column(name = "answer", nullable = false)
+    private String answer;
+
     @ManyToOne
     private Topic topic;
 
@@ -70,6 +74,19 @@ public class Exercise implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getAnswer() {
+        return answer;
+    }
+
+    public Exercise answer(String answer) {
+        this.answer = answer;
+        return this;
+    }
+
+    public void setAnswer(String answer) {
+        this.answer = answer;
     }
 
     public Topic getTopic() {
@@ -125,6 +142,7 @@ public class Exercise implements Serializable {
             "id=" + getId() +
             ", contentType='" + getContentType() + "'" +
             ", content='" + getContent() + "'" +
+            ", answer='" + getAnswer() + "'" +
             "}";
     }
 }

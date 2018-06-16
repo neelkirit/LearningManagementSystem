@@ -8,6 +8,14 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "icon",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20180315162656",
