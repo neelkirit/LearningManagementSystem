@@ -136,7 +136,7 @@ public class ExerciseResource {
      */
     @PostMapping("/exercises/topic")
     @Timed
-    public ResponseEntity<List<ExerciseDTO>> getExercisesForTopic(QuestionConfigDTO questionConfigDTO) {
+    public ResponseEntity<List<ExerciseDTO>> getExercisesForTopic(@Valid @RequestBody QuestionConfigDTO questionConfigDTO) {
         List<ExerciseDTO> exercisesByTopicId = this.exerciseService.findExercisesByTopicId(questionConfigDTO.getTopicId());
         List<ExerciseDTO> resultantExerciseDTOs = null;
         if (exercisesByTopicId.size() <= questionConfigDTO.getNumberOfQuestions()) {
