@@ -111,4 +111,15 @@ public class ExerciseServiceImpl implements ExerciseService {
         return exerciseDTOList;
     }
 
+    /**
+     * Get exercises for a given topic id
+     * @param topicId the topic id
+     * @return Exercise DTOs
+     */
+    @Override
+    public List<ExerciseDTO> findExercisesByTopicId(Long topicId) {
+        List<Exercise> exercisesForTopicId = this.exerciseRepository.findByTopicId(topicId);
+        return this.exerciseMapper.toDto(exercisesForTopicId);
+    }
+
 }

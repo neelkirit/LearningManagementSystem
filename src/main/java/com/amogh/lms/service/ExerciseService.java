@@ -62,4 +62,11 @@ public interface ExerciseService {
     List<ExerciseDTO> findByTopicId(Long topicId);
 
     List<ExerciseDTO> findByTopicDTOList(List<TopicDTO> topicDTOList);
+
+    /**
+     * Get exercises for a given topic id
+     * @param topicId the topic id
+     * @return Exercise DTOs
+     */
+    List<ExerciseDTO> findExercisesByTopicId(Long topicId);
 }

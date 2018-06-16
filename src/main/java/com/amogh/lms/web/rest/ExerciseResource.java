@@ -1,5 +1,6 @@
 package com.amogh.lms.web.rest;
 
+import com.amogh.lms.service.dto.QuestionConfigDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
@@ -20,6 +21,8 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,5 +126,29 @@ public class ExerciseResource {
         log.debug("REST request to delete Exercise : {}", id);
         exerciseService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * POST  /exercises/topic/:topicId : get the "id" exercise.
+     *
+     * @param topicId the id of the topic for which we have exercise to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the exerciseDTO, or with status 404 (Not Found)
+     */
+    @PostMapping("/exercises/topic")
+    @Timed
+    public ResponseEntity<List<ExerciseDTO>> getExercisesForTopic(QuestionConfigDTO questionConfigDTO) {
+        List<ExerciseDTO> exercisesByTopicId = this.exerciseService.findExercisesByTopicId(questionConfigDTO.getTopicId());
+        List<ExerciseDTO> resultantExerciseDTOs = null;
+        if (exercisesByTopicId.size() <= questionConfigDTO.getNumberOfQuestions()) {
+            resultantExerciseDTOs = exercisesByTopicId;
+        } else {
+            Collections.shuffle(exercisesByTopicId);
+            resultantExerciseDTOs = new ArrayList<ExerciseDTO>();
+            for (int i=0; i< questionConfigDTO.getNumberOfQuestions(); i++) {
+                resultantExerciseDTOs.add(exercisesByTopicId.get(i));
+            }
+        }
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resultantExerciseDTOs));
+
     }
 }
