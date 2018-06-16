@@ -131,7 +131,7 @@ public class ExerciseResource {
     /**
      * POST  /exercises/topic/:topicId : get the "id" exercise.
      *
-     * @param topicId the id of the topic for which we have exercise to retrieve
+     * @param questionConfigDTO the question config of the topic for which we have exercise to retrieve
      * @return the ResponseEntity with status 200 (OK) and with body the exerciseDTO, or with status 404 (Not Found)
      */
     @PostMapping("/exercises/topic")
