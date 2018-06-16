@@ -35,7 +35,6 @@ public class RunIngest extends AmoghServerApp {
             System.out.println("Args passed in [" + args +"]");
         }
         String excelFilePath = args[ 0 ];
-        String environment = args[ 1 ];
 
         SpringApplication app = new SpringApplication(RunIngest.class);
         DefaultProfileUtil.addDefaultProfile(app);

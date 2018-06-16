@@ -15,7 +15,7 @@ public class IngestModel {
 
     ContentType contentType;
 
-    List<String> templateNames;
+    String templateName;
 
     String answer;
 
@@ -31,12 +31,12 @@ public class IngestModel {
         return contentType;
     }
 
-    public List<String> getTemplateNames() {
-        return templateNames;
+    public String getTemplateName() {
+        return templateName;
     }
 
-    public void setTemplateNames(List<String> templateNames) {
-        this.templateNames = templateNames;
+    public void setTemplateName(String templateNames) {
+        this.templateName = templateNames;
     }
 
     public void setContentType(ContentType contentType) {

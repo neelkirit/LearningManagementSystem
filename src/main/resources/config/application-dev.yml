@@ -34,7 +34,7 @@ spring:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/AmoghLMS_Dev?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
-        password: amogh
+        password:
         hikari:
             data-source-properties:
                 cachePrepStmts: true
@@ -81,7 +81,7 @@ liquibase:
 #        key-alias: AmoghServer
 # ===================================================================
 server:
-    port: 8080
+    port: 9000
 
 # ===================================================================
 # JHipster specific properties

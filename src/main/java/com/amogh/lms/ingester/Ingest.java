@@ -79,14 +79,11 @@ public class Ingest implements IBaseIngester {
         for (IngestModel ingestModel : ingestModels) {
             CourseDTO courseDTO = this.saveCourse(ingestModel.getCourseName());
             TopicDTO topicDTO = this.saveTopic(courseDTO, ingestModel.getTopicName());
-            List<String> templateNames = ingestModel.getTemplateNames();
-            for (String templateName : templateNames) {
-                TemplateDTO templateDTO = this.templateService.findByName(templateName);
-                if (templateDTO != null) {
-                    this.saveExercise(ingestModel.getContent(), ingestModel.getContentType(), topicDTO, templateDTO);
-                }
+            String templateName = ingestModel.getTemplateName();
+            TemplateDTO templateDTO = this.templateService.findByName(templateName);
+            if (templateDTO != null) {
+                this.saveExercise(ingestModel.getContent(), ingestModel.getContentType(), topicDTO, templateDTO);
             }
-
         }
     }
 
@@ -207,8 +204,7 @@ public class Ingest implements IBaseIngester {
                     model.setContentType(enumValue);
                     break;
                 case 4:
-                    List<String> templateNames = Arrays.asList(cellValue.split(","));
-                    model.setTemplateNames(templateNames);
+                    model.setTemplateName(cellValue);
                     break;
                 case 5:
                     model.setAnswer(cellValue);
