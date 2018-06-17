@@ -153,7 +153,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             for (ExerciseStatsDTO exerciseStatForUser: exerciseStatsForUser) {
                 if(exerciseDetailsDTO.getId() == exerciseStatForUser.getExerciseId()) {
                     foundExistingStat = true;
-                    if (exerciseStatForUser.isStatus() == true && exerciseDetailsDTO.getAnswered() != exerciseStatForUser.isStatus()) {
+                    if (exerciseStatForUser.isStatus() == false && exerciseDetailsDTO.getAnswered() != exerciseStatForUser.isStatus()) {
                         exerciseStatForUser.setStatus(exerciseDetailsDTO.getAnswered());
                         this.exerciseStatsService.save(exerciseStatForUser);
                         ++updatedStats;
