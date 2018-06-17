@@ -151,4 +151,11 @@ public class ExerciseResource {
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resultantExerciseDetailsDTOs));
     }
+
+    @PostMapping("/exercises/topic/submit")
+    @Timed
+    public ResponseEntity<Integer> submitExerciseResults(@Valid @RequestBody List<ExerciseDetailsDTO> exerciseDetailsDTOS) {
+        Integer numberOfStatsUpd = this.exerciseService.submitExerciseStats(exerciseDetailsDTOS);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(numberOfStatsUpd));
+    }
 }

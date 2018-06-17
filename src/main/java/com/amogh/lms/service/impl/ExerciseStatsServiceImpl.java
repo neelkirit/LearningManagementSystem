@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing ExerciseStats.
@@ -82,5 +84,16 @@ public class ExerciseStatsServiceImpl implements ExerciseStatsService {
     public void delete(Long id) {
         log.debug("Request to delete ExerciseStats : {}", id);
         exerciseStatsRepository.delete(id);
+    }
+
+    /**
+     * Finds all the questions attempted by the user
+     *
+     * @return list of exercise stats entires
+     */
+    @Override
+    public List<ExerciseStatsDTO> findByLoggedInUser() {
+        List<ExerciseStats> exerciseStats = this.exerciseStatsRepository.findByUserIsCurrentUser();
+        return this.exerciseStatsMapper.toDto(exerciseStats);
     }
 }

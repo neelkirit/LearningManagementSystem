@@ -70,4 +70,11 @@ public interface ExerciseService {
      * @return Exercise details DTOs
      */
     List<ExerciseDetailsDTO> findExercisesByTopicId(Long topicId);
+
+    /**
+     * Submits the exercise details/stats for a user to be stored
+     * @param exerciseDetailsDTOS the exercise details
+     * @return number of exercise stats updated
+     */
+    Integer submitExerciseStats(List<ExerciseDetailsDTO> exerciseDetailsDTOS);
 }

@@ -12,14 +12,25 @@ import java.util.Objects;
  */
 public class ExerciseDetailsDTO extends ExerciseDTO {
 
+    private Long userId;
+
     private TemplateDTO template;
 
+    private Boolean isAnswered;
 
     public TemplateDTO getTemplate() {
         return this.template;
     }
 
     public void setTemplate(TemplateDTO template) { this.template = template; }
+
+    public Boolean getAnswered() { return isAnswered; }
+
+    public void setAnswered(Boolean answered) { isAnswered = answered; }
+
+    public Long getUserId() { return userId; }
+
+    public void setUserId(Long userId) { this.userId = userId; }
 
     public void setupDTO(ExerciseDTO exerciseDTO, TemplateDTO templateDTO) {
         this.setAnswer(exerciseDTO.getAnswer());

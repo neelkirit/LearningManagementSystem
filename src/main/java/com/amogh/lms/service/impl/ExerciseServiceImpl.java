@@ -6,10 +6,9 @@ import com.amogh.lms.domain.enumeration.ContentType;
 import com.amogh.lms.repository.ExerciseRepository;
 import com.amogh.lms.repository.TemplateRepository;
 import com.amogh.lms.service.ExerciseService;
-import com.amogh.lms.service.dto.ExerciseDTO;
-import com.amogh.lms.service.dto.ExerciseDetailsDTO;
-import com.amogh.lms.service.dto.TemplateDTO;
-import com.amogh.lms.service.dto.TopicDTO;
+import com.amogh.lms.service.ExerciseStatsService;
+import com.amogh.lms.service.TemplateService;
+import com.amogh.lms.service.dto.*;
 import com.amogh.lms.service.mapper.ExerciseMapper;
 import com.amogh.lms.service.mapper.TemplateMapper;
 import org.slf4j.Logger;
@@ -36,20 +35,20 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseMapper exerciseMapper;
 
-    private final TemplateRepository templateRepository;
+    private final ExerciseStatsService exerciseStatsService;
 
-    private final TemplateMapper templateMapper;
+    private final TemplateService templateService;
 
     public ExerciseServiceImpl(
         ExerciseRepository exerciseRepository,
         ExerciseMapper exerciseMapper,
-        TemplateRepository templateRepository,
-        TemplateMapper templateMapper
+        TemplateService templateService,
+        ExerciseStatsService exerciseStatsService
     ) {
         this.exerciseRepository = exerciseRepository;
         this.exerciseMapper = exerciseMapper;
-        this.templateRepository = templateRepository;
-        this.templateMapper = templateMapper;
+        this.templateService = templateService;
+        this.exerciseStatsService = exerciseStatsService;
     }
 
     /**
@@ -137,13 +136,41 @@ public class ExerciseServiceImpl implements ExerciseService {
         List<ExerciseDTO> exerciseDTOs = this.exerciseMapper.toDto(exercisesForTopicId);
         List<ExerciseDetailsDTO> exerciseDetailsDTOs = new ArrayList<>();
         for ( ExerciseDTO exerciseDTO : exerciseDTOs) {
-            Template template = this.templateRepository.getOne(exerciseDTO.getTemplateId());
-            TemplateDTO templateDTO = this.templateMapper.toDto(template);
+            TemplateDTO templateDTO = this.templateService.findOne(exerciseDTO.getTemplateId());
             ExerciseDetailsDTO exerciseDetailsDTO = new ExerciseDetailsDTO();
             exerciseDetailsDTO.setupDTO(exerciseDTO, templateDTO);
             exerciseDetailsDTOs.add(exerciseDetailsDTO);
         }
         return exerciseDetailsDTOs;
+    }
+
+    @Override
+    public Integer submitExerciseStats(List<ExerciseDetailsDTO> exerciseDetailsDTOS) {
+        int updatedStats = 0;
+        List<ExerciseStatsDTO> exerciseStatsForUser = this.exerciseStatsService.findByLoggedInUser();
+        for(ExerciseDetailsDTO exerciseDetailsDTO : exerciseDetailsDTOS) {
+            Boolean foundExistingStat = false;
+            for (ExerciseStatsDTO exerciseStatForUser: exerciseStatsForUser) {
+                if(exerciseDetailsDTO.getId() == exerciseStatForUser.getExerciseId()) {
+                    foundExistingStat = true;
+                    if (exerciseStatForUser.isStatus() == true && exerciseDetailsDTO.getAnswered() != exerciseStatForUser.isStatus()) {
+                        exerciseStatForUser.setStatus(exerciseDetailsDTO.getAnswered());
+                        this.exerciseStatsService.save(exerciseStatForUser);
+                        ++updatedStats;
+                    }
+                    break;
+                }
+            }
+            if(foundExistingStat == false) {
+                ExerciseStatsDTO exerciseStatsDTO = new ExerciseStatsDTO();
+                exerciseStatsDTO.setExerciseId(exerciseDetailsDTO.getId());
+                exerciseStatsDTO.setUserId(exerciseDetailsDTO.getUserId());
+                exerciseStatsDTO.setStatus(exerciseDetailsDTO.getAnswered());
+                this.exerciseStatsService.save(exerciseStatsDTO);
+                ++updatedStats;
+            }
+        }
+        return updatedStats;
     }
 
 }
