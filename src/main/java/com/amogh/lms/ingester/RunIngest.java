@@ -31,22 +31,21 @@ public class RunIngest extends AmoghServerApp {
     }
 
     public static void main(String[] args) {
-        for (String arg :args) {
-            System.out.println("Args passed in [" + args +"]");
-        }
-        String excelFilePath = args[ 0 ];
-
         SpringApplication app = new SpringApplication(RunIngest.class);
         DefaultProfileUtil.addDefaultProfile(app);
         ConfigurableApplicationContext context = app.run(args);
         Ingest ingester = context.getBean(Ingest.class);
         try{
-            System.out.println("Got the ingest instance... FINALLY!!!");
-            List<IngestModel> ingestModels = ingester.process(excelFilePath);
-            ingester.persist(ingestModels);
-            System.out.println("Exiting process... SUCCESS!!");
+            for(int i=0; i < args.length; i++) {
+                String excelFilePath = args[i];
+                System.out.println("Processing excel file: " + excelFilePath);
+                List<IngestModel> ingestModels = ingester.process(excelFilePath);
+                ingester.persist(ingestModels);
+                System.out.println("Processing completed for file: " + excelFilePath);
+            }
         } catch (Exception e) {
-            System.out.println("Exiting process... Failed!!");
+            System.out.println("Something went wrong... Please check!!");
+            e.printStackTrace();
         }
         System.exit(0);
     }
