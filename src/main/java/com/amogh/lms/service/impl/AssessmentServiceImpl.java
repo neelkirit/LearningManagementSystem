@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -35,17 +37,21 @@ public class AssessmentServiceImpl implements AssessmentService {
 
     private final TemplateService templateService;
 
+    private final AssessmentStatsService assessmentStatsService;
+
     public AssessmentServiceImpl(
         AssessmentRepository assessmentRepository,
         AssessmentMapper assessmentMapper,
         TopicService topicService,
         ExerciseService exerciseService,
-        TemplateService templateService) {
+        TemplateService templateService,
+        AssessmentStatsService assessmentStatsService) {
         this.assessmentRepository = assessmentRepository;
         this.assessmentMapper = assessmentMapper;
         this.topicService = topicService;
         this.exerciseService = exerciseService;
         this.templateService = templateService;
+        this.assessmentStatsService = assessmentStatsService;
     }
 
     /**
@@ -134,5 +140,50 @@ public class AssessmentServiceImpl implements AssessmentService {
             }
         }
         return allExercises;
+    }
+
+    /**
+     * Updates the assessment stats
+     *
+     * @return stats on how many answers the user got right
+     */
+    @Override
+    public Map<String, Float> updateAssessmentStats(List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
+        Long assessmentId = null;
+        Long userId = null;
+        int answeredCorrect = 0;
+        for (AssessmentExerciseDTO assessmentExerciseDTO: assessmentExerciseDTOS) {
+            if (assessmentId == null) {
+                assessmentId = assessmentExerciseDTO.getAssessmentDTO().getId();
+                userId = assessmentExerciseDTO.getUserId();
+            }
+            if (assessmentExerciseDTO.getAnswered() == true) {
+                ++answeredCorrect;
+            }
+        }
+        Float assessmentScore = (((float)answeredCorrect)/assessmentExerciseDTOS.size()) * 100;
+        List<AssessmentStatsDTO> assessmentStatsByUser = this.assessmentStatsService.findAssessmentStatsByUser();
+        AssessmentStatsDTO assessmentStatsDTO = null;
+        if (assessmentStatsByUser != null) {
+            for (AssessmentStatsDTO assessmentStatDTOByUser: assessmentStatsByUser) {
+                if (assessmentStatDTOByUser.getAssessmentId() == assessmentId) {
+                    assessmentStatsDTO = assessmentStatDTOByUser;
+                    if(assessmentScore <  assessmentStatDTOByUser.getScore()) {
+                        assessmentStatsDTO.setScore(assessmentScore);
+                    }
+                    break;
+                }
+            }
+        }
+        if (assessmentStatsDTO == null) {
+            assessmentStatsDTO = new AssessmentStatsDTO();
+            assessmentStatsDTO.setAssessmentId(assessmentId);
+            assessmentStatsDTO.setUserId(userId);
+            assessmentStatsDTO.setScore(assessmentScore);
+        }
+        this.assessmentStatsService.save(assessmentStatsDTO);
+        Map<String, Float> results = new HashMap<>();
+        results.put("assessmentScore", assessmentScore);
+        return results;
     }
 }

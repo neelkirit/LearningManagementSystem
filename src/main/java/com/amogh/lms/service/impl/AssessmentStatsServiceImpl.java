@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing AssessmentStats.
@@ -82,5 +84,11 @@ public class AssessmentStatsServiceImpl implements AssessmentStatsService {
     public void delete(Long id) {
         log.debug("Request to delete AssessmentStats : {}", id);
         assessmentStatsRepository.delete(id);
+    }
+
+    @Override
+    public List<AssessmentStatsDTO> findAssessmentStatsByUser() {
+        List<AssessmentStats> assessmentsForUser = this.assessmentStatsRepository.findByUserIsCurrentUser();
+        return this.assessmentStatsMapper.toDto(assessmentsForUser);
     }
 }

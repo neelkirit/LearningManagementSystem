@@ -1,18 +1,16 @@
 package com.amogh.lms.web.rest;
 
-import com.amogh.lms.service.TemplateService;
-import com.amogh.lms.service.dto.*;
-import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.AssessmentService;
-import com.amogh.lms.service.TopicService;
-import com.amogh.lms.service.ExerciseService;
+import com.amogh.lms.service.dto.AssessmentDTO;
+import com.amogh.lms.service.dto.AssessmentExerciseDTO;
+import com.amogh.lms.service.dto.QuestionConfigDTO;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
 import com.amogh.lms.web.rest.util.HeaderUtil;
 import com.amogh.lms.web.rest.util.PaginationUtil;
+import com.codahale.metrics.annotation.Timed;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.*;
 
 /**
@@ -133,10 +130,26 @@ public class AssessmentResource {
         } else {
             Collections.shuffle(exercisesForCourseId);
             resultExerciseDTOList = new ArrayList<>();
-            for (int i=0; i< questionConfigDTO.getNumberOfQuestions(); i++) {
+            for (int i = 0; i < questionConfigDTO.getNumberOfQuestions(); i++) {
                 resultExerciseDTOList.add(exercisesForCourseId.get(i));
             }
         }
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resultExerciseDTOList));
     }
+
+
+    /**
+     * POST /assessments/course : get the "id" assessment.
+     *
+     * @param assessmentExerciseDTOS the question config DTO with details to fetch
+     * @return the ResponseEntity with status 200 (OK) and with body tthe list of exercise dtos, or with status 404 (Not Found)
+     */
+    @PostMapping("/assessments/course")
+    @Timed
+    public ResponseEntity<Map<String, Float>> updateAssessmentStats(@Valid @RequestBody List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
+        log.debug("REST request to store stats for assessment");
+        Map<String, Float> results = this.assessmentService.updateAssessmentStats(assessmentExerciseDTOS);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(results));
+    }
+
 }
