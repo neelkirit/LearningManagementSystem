@@ -13,4 +13,6 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface AssessmentRepository extends JpaRepository<Assessment, Long> {
 
+    Assessment findByCourseId(Long courseId);
+
 }

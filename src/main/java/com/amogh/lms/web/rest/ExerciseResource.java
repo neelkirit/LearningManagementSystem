@@ -22,10 +22,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * REST controller for managing Exercise.
@@ -154,8 +151,10 @@ public class ExerciseResource {
 
     @PostMapping("/exercises/topic/submit")
     @Timed
-    public ResponseEntity<Integer> submitExerciseResults(@Valid @RequestBody List<ExerciseDetailsDTO> exerciseDetailsDTOS) {
-        Integer numberOfStatsUpd = this.exerciseService.submitExerciseStats(exerciseDetailsDTOS);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(numberOfStatsUpd));
+    public ResponseEntity<Map<String, Integer>> submitExerciseResults(@Valid @RequestBody List<ExerciseDetailsDTO> exerciseDetailsDTOS) {
+        Integer totalCorrect = this.exerciseService.submitExerciseStats(exerciseDetailsDTOS);
+        Map<String, Integer> answeredCorrect = new HashMap<>();
+        answeredCorrect.put( "answeredCorrect", totalCorrect );
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(answeredCorrect));
     }
 }

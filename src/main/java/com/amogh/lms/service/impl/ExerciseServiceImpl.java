@@ -146,17 +146,19 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Integer submitExerciseStats(List<ExerciseDetailsDTO> exerciseDetailsDTOS) {
-        int updatedStats = 0;
+        int totalCorrect = 0;
         List<ExerciseStatsDTO> exerciseStatsForUser = this.exerciseStatsService.findByLoggedInUser();
         for(ExerciseDetailsDTO exerciseDetailsDTO : exerciseDetailsDTOS) {
             Boolean foundExistingStat = false;
+            if(exerciseDetailsDTO.getAnswered() == true) {
+                ++totalCorrect;
+            }
             for (ExerciseStatsDTO exerciseStatForUser: exerciseStatsForUser) {
                 if(exerciseDetailsDTO.getId() == exerciseStatForUser.getExerciseId()) {
                     foundExistingStat = true;
                     if (exerciseStatForUser.isStatus() == false && exerciseDetailsDTO.getAnswered() != exerciseStatForUser.isStatus()) {
                         exerciseStatForUser.setStatus(exerciseDetailsDTO.getAnswered());
                         this.exerciseStatsService.save(exerciseStatForUser);
-                        ++updatedStats;
                     }
                     break;
                 }
@@ -167,10 +169,9 @@ public class ExerciseServiceImpl implements ExerciseService {
                 exerciseStatsDTO.setUserId(exerciseDetailsDTO.getUserId());
                 exerciseStatsDTO.setStatus(exerciseDetailsDTO.getAnswered());
                 this.exerciseStatsService.save(exerciseStatsDTO);
-                ++updatedStats;
             }
         }
-        return updatedStats;
+        return totalCorrect;
     }
 
 }

@@ -24,9 +24,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * REST controller for managing Assessment.
@@ -41,17 +39,9 @@ public class AssessmentResource {
 
     private final AssessmentService assessmentService;
 
-    @Autowired
-    private final TopicService topicService;
-    @Autowired
-    private final ExerciseService exerciseService;
-    private final TemplateService templateService;
 
-    public AssessmentResource(AssessmentService assessmentService, TopicService topicService, ExerciseService exerciseService, TemplateService templateService) {
+    public AssessmentResource(AssessmentService assessmentService) {
         this.assessmentService = assessmentService;
-        this.topicService = topicService;
-        this.exerciseService = exerciseService;
-        this.templateService = templateService;
     }
 
     /**
@@ -112,28 +102,6 @@ public class AssessmentResource {
     }
 
     /**
-     * GET  /assessments/:id : get the "id" assessment.
-     *
-     * @param id the id of the assessmentDTO to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the assessmentDTO, or with status 404 (Not Found)
-     */
-    @GetMapping("/assessments/{id}")
-    @Timed
-    public ResponseEntity<AssessmentExerciseDTO> getAssessment(@PathVariable Long id) {
-        log.debug("REST request to get Assessment : {}", id);
-        AssessmentDTO assessmentDTO = assessmentService.findOne(id);
-        List<TopicDTO> topicDTOList = topicService.findByCourseId(assessmentDTO.getCourseId());
-
-        List<ExerciseDTO> exerciseDTOList = exerciseService.findByTopicDTOList(topicDTOList);
-        Set<TemplateDTO> templateDTOList = templateService.findByExerciseDTO(exerciseDTOList);
-        AssessmentExerciseDTO assessmentExerciseDTO = new AssessmentExerciseDTO();
-        assessmentExerciseDTO.setAssessmentDTO(assessmentDTO);
-        assessmentExerciseDTO.setExerciseDTOList(exerciseDTOList);
-        assessmentExerciseDTO.setTemplateDTOList(templateDTOList);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentExerciseDTO));
-    }
-
-    /**
      * DELETE  /assessments/:id : delete the "id" assessment.
      *
      * @param id the id of the assessmentDTO to delete
@@ -145,5 +113,30 @@ public class AssessmentResource {
         log.debug("REST request to delete Assessment : {}", id);
         assessmentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+
+    /**
+     * POST /assessments/course : get the "id" assessment.
+     *
+     * @param questionConfigDTO the question config DTO with details to fetch
+     * @return the ResponseEntity with status 200 (OK) and with body tthe list of exercise dtos, or with status 404 (Not Found)
+     */
+    @PostMapping("/assessments/course")
+    @Timed
+    public ResponseEntity<List<AssessmentExerciseDTO>> getExercisesForAssessment(@Valid @RequestBody QuestionConfigDTO questionConfigDTO) {
+        log.debug("REST request to get questions for assessment for course : {}", questionConfigDTO.getCourseId());
+        List<AssessmentExerciseDTO> exercisesForCourseId = this.assessmentService.getExercisesForCourseId(questionConfigDTO.getCourseId());
+        List<AssessmentExerciseDTO> resultExerciseDTOList = null;
+        if (exercisesForCourseId.size() <= questionConfigDTO.getNumberOfQuestions()) {
+            resultExerciseDTOList = exercisesForCourseId;
+        } else {
+            Collections.shuffle(exercisesForCourseId);
+            resultExerciseDTOList = new ArrayList<>();
+            for (int i=0; i< questionConfigDTO.getNumberOfQuestions(); i++) {
+                resultExerciseDTOList.add(exercisesForCourseId.get(i));
+            }
+        }
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resultExerciseDTOList));
     }
 }

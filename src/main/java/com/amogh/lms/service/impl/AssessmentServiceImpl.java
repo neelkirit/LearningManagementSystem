@@ -1,9 +1,9 @@
 package com.amogh.lms.service.impl;
 
-import com.amogh.lms.service.AssessmentService;
+import com.amogh.lms.service.*;
 import com.amogh.lms.domain.Assessment;
 import com.amogh.lms.repository.AssessmentRepository;
-import com.amogh.lms.service.dto.AssessmentDTO;
+import com.amogh.lms.service.dto.*;
 import com.amogh.lms.service.mapper.AssessmentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -26,9 +29,23 @@ public class AssessmentServiceImpl implements AssessmentService {
 
     private final AssessmentMapper assessmentMapper;
 
-    public AssessmentServiceImpl(AssessmentRepository assessmentRepository, AssessmentMapper assessmentMapper) {
+    private final TopicService topicService;
+
+    private final ExerciseService exerciseService;
+
+    private final TemplateService templateService;
+
+    public AssessmentServiceImpl(
+        AssessmentRepository assessmentRepository,
+        AssessmentMapper assessmentMapper,
+        TopicService topicService,
+        ExerciseService exerciseService,
+        TemplateService templateService) {
         this.assessmentRepository = assessmentRepository;
         this.assessmentMapper = assessmentMapper;
+        this.topicService = topicService;
+        this.exerciseService = exerciseService;
+        this.templateService = templateService;
     }
 
     /**
@@ -82,5 +99,40 @@ public class AssessmentServiceImpl implements AssessmentService {
     public void delete(Long id) {
         log.debug("Request to delete Assessment : {}", id);
         assessmentRepository.delete(id);
+    }
+
+    /**
+     * The assessment DTO for the course
+     *
+     * @param courseId the course id
+     * @return the assessment DTO
+     */
+    @Override
+    public AssessmentDTO findByCourseId(Long courseId) {
+        Assessment assessmentForCourse = this.assessmentRepository.findByCourseId(courseId);
+        return this.assessmentMapper.toDto(assessmentForCourse);
+    }
+
+    /**
+     * Gets the exercises for the given coures id
+     *
+     * @param courseId the course id
+     * @return list of assessment exercise DTOs
+     */
+    @Override
+    public List<AssessmentExerciseDTO> getExercisesForCourseId(Long courseId) {
+        List<TopicDTO> topicsForCourse = topicService.findByCourseId(courseId);
+        AssessmentDTO assessmentDTO = this.findByCourseId(courseId);
+        List<AssessmentExerciseDTO> allExercises = new ArrayList<>();
+        for(TopicDTO topicDTO: topicsForCourse) {
+            List<ExerciseDTO> exercisesForTopic = this.exerciseService.findByTopicId(topicDTO.getId());
+            for (ExerciseDTO exerciseDTO: exercisesForTopic) {
+                TemplateDTO templateDTO = this.templateService.findOne(exerciseDTO.getTemplateId());
+                AssessmentExerciseDTO assessmentExerciseDTO = new AssessmentExerciseDTO();
+                assessmentExerciseDTO.setupDTO(exerciseDTO, templateDTO, assessmentDTO);
+                allExercises.add(assessmentExerciseDTO);
+            }
+        }
+        return allExercises;
     }
 }
