@@ -7,7 +7,11 @@ export const enum ContentType {
     'WORD',
     'SENTENCE',
     'CHECKBOX',
-    'RADIOBUTTON'
+    'COMBOBOX',
+    'RADIOBUTTON',
+    'IMAGE',
+    'FORM',
+    'EXCEL'
 }
 
 export const enum ContentStyle {
