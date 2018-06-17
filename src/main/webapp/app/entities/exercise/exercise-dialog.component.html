@@ -19,6 +19,13 @@
                 <option value="NUMBER">{{'amoghServerApp.ContentType.NUMBER' | translate}}</option>
                 <option value="CURRENCY">{{'amoghServerApp.ContentType.CURRENCY' | translate}}</option>
                 <option value="WORD">{{'amoghServerApp.ContentType.WORD' | translate}}</option>
+                <option value="SENTENCE">{{'amoghServerApp.ContentType.SENTENCE' | translate}}</option>
+                <option value="CHECKBOX">{{'amoghServerApp.ContentType.CHECKBOX' | translate}}</option>
+                <option value="COMBOBOX">{{'amoghServerApp.ContentType.COMBOBOX' | translate}}</option>
+                <option value="RADIOBUTTON">{{'amoghServerApp.ContentType.RADIOBUTTON' | translate}}</option>
+                <option value="IMAGE">{{'amoghServerApp.ContentType.IMAGE' | translate}}</option>
+                <option value="FORM">{{'amoghServerApp.ContentType.FORM' | translate}}</option>
+                <option value="EXCEL">{{'amoghServerApp.ContentType.EXCEL' | translate}}</option>
             </select>
             <div [hidden]="!(editForm.controls.contentType?.dirty && editForm.controls.contentType?.invalid)">
                 <small class="form-text text-danger"

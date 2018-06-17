@@ -4,7 +4,14 @@ export const enum ContentType {
     'ALPHABET',
     'NUMBER',
     'CURRENCY',
-    'WORD'
+    'WORD',
+    'SENTENCE',
+    'CHECKBOX',
+    'COMBOBOX',
+    'RADIOBUTTON',
+    'IMAGE',
+    'FORM',
+    'EXCEL'
 }
 
 export class Exercise implements BaseEntity {

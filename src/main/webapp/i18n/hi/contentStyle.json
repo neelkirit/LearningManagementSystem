@@ -4,7 +4,9 @@
             "null": "",
             "ITALICS": "ITALICS",
             "BOLD": "BOLD",
-            "BOLD_ITALICS": "BOLD_ITALICS"
+            "BOLD_ITALICS": "BOLD_ITALICS",
+            "CAPITALS": "CAPITALS",
+            "NORMAL": "NORMAL"
         }
     }
 }

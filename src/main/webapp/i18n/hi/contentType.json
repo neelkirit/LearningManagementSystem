@@ -5,7 +5,14 @@
             "ALPHABET": "ALPHABET",
             "NUMBER": "NUMBER",
             "CURRENCY": "CURRENCY",
-            "WORD": "WORD"
+            "WORD": "WORD",
+            "SENTENCE": "SENTENCE",
+            "CHECKBOX" : "CHECKBOX",
+            "COMBOBOX" : "COMBOBOX",
+            "RADIOBUTTON" : "RADIOBUTTON",
+            "IMAGE" : "IMAGE",
+            "FORM" : "FORM",
+            "EXCEL" : "EXCEL"
         }
     }
 }
