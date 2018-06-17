@@ -1,13 +1,17 @@
 package com.amogh.lms.service.impl;
 
+import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.domain.enumeration.ContentType;
-import com.amogh.lms.service.ExerciseService;
-import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.repository.ExerciseRepository;
+import com.amogh.lms.repository.TemplateRepository;
+import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.ExerciseDetailsDTO;
+import com.amogh.lms.service.dto.TemplateDTO;
 import com.amogh.lms.service.dto.TopicDTO;
 import com.amogh.lms.service.mapper.ExerciseMapper;
+import com.amogh.lms.service.mapper.TemplateMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -32,9 +36,20 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private final ExerciseMapper exerciseMapper;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository, ExerciseMapper exerciseMapper) {
+    private final TemplateRepository templateRepository;
+
+    private final TemplateMapper templateMapper;
+
+    public ExerciseServiceImpl(
+        ExerciseRepository exerciseRepository,
+        ExerciseMapper exerciseMapper,
+        TemplateRepository templateRepository,
+        TemplateMapper templateMapper
+    ) {
         this.exerciseRepository = exerciseRepository;
         this.exerciseMapper = exerciseMapper;
+        this.templateRepository = templateRepository;
+        this.templateMapper = templateMapper;
     }
 
     /**
@@ -117,9 +132,18 @@ public class ExerciseServiceImpl implements ExerciseService {
      * @return Exercise DTOs
      */
     @Override
-    public List<ExerciseDTO> findExercisesByTopicId(Long topicId) {
+    public List<ExerciseDetailsDTO> findExercisesByTopicId(Long topicId) {
         List<Exercise> exercisesForTopicId = this.exerciseRepository.findByTopicId(topicId);
-        return this.exerciseMapper.toDto(exercisesForTopicId);
+        List<ExerciseDTO> exerciseDTOs = this.exerciseMapper.toDto(exercisesForTopicId);
+        List<ExerciseDetailsDTO> exerciseDetailsDTOs = new ArrayList<>();
+        for ( ExerciseDTO exerciseDTO : exerciseDTOs) {
+            Template template = this.templateRepository.getOne(exerciseDTO.getTemplateId());
+            TemplateDTO templateDTO = this.templateMapper.toDto(template);
+            ExerciseDetailsDTO exerciseDetailsDTO = new ExerciseDetailsDTO();
+            exerciseDetailsDTO.setupDTO(exerciseDTO, templateDTO);
+            exerciseDetailsDTOs.add(exerciseDetailsDTO);
+        }
+        return exerciseDetailsDTOs;
     }
 
 }

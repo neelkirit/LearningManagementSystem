@@ -1,5 +1,6 @@
 package com.amogh.lms.web.rest;
 
+import com.amogh.lms.service.dto.ExerciseDetailsDTO;
 import com.amogh.lms.service.dto.QuestionConfigDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.ExerciseService;
@@ -132,23 +133,22 @@ public class ExerciseResource {
      * POST  /exercises/topic/:topicId : get the "id" exercise.
      *
      * @param questionConfigDTO the question config of the topic for which we have exercise to retrieve
-     * @return the ResponseEntity with status 200 (OK) and with body the exerciseDTO, or with status 404 (Not Found)
+     * @return the ResponseEntity with status 200 (OK) and with body the exerciseDetailsDTO, or with status 404 (Not Found)
      */
     @PostMapping("/exercises/topic")
     @Timed
-    public ResponseEntity<List<ExerciseDTO>> getExercisesForTopic(@Valid @RequestBody QuestionConfigDTO questionConfigDTO) {
-        List<ExerciseDTO> exercisesByTopicId = this.exerciseService.findExercisesByTopicId(questionConfigDTO.getTopicId());
-        List<ExerciseDTO> resultantExerciseDTOs = null;
+    public ResponseEntity<List<ExerciseDetailsDTO>> getExercisesForTopic(@Valid @RequestBody QuestionConfigDTO questionConfigDTO) {
+        List<ExerciseDetailsDTO> exercisesByTopicId = this.exerciseService.findExercisesByTopicId(questionConfigDTO.getTopicId());
+        List<ExerciseDetailsDTO> resultantExerciseDetailsDTOs = null;
         if (exercisesByTopicId.size() <= questionConfigDTO.getNumberOfQuestions()) {
-            resultantExerciseDTOs = exercisesByTopicId;
+            resultantExerciseDetailsDTOs = exercisesByTopicId;
         } else {
             Collections.shuffle(exercisesByTopicId);
-            resultantExerciseDTOs = new ArrayList<ExerciseDTO>();
+            resultantExerciseDetailsDTOs = new ArrayList<>();
             for (int i=0; i< questionConfigDTO.getNumberOfQuestions(); i++) {
-                resultantExerciseDTOs.add(exercisesByTopicId.get(i));
+                resultantExerciseDetailsDTOs.add(exercisesByTopicId.get(i));
             }
         }
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resultantExerciseDTOs));
-
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resultantExerciseDetailsDTOs));
     }
 }

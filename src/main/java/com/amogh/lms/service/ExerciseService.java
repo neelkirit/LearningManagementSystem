@@ -3,6 +3,7 @@ package com.amogh.lms.service;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.domain.enumeration.ContentType;
 import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.ExerciseDetailsDTO;
 import com.amogh.lms.service.dto.TopicDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +67,7 @@ public interface ExerciseService {
     /**
      * Get exercises for a given topic id
      * @param topicId the topic id
-     * @return Exercise DTOs
+     * @return Exercise details DTOs
      */
-    List<ExerciseDTO> findExercisesByTopicId(Long topicId);
+    List<ExerciseDetailsDTO> findExercisesByTopicId(Long topicId);
 }
