@@ -44,6 +44,13 @@ public interface ExerciseStatsService {
 
 
     /**
+     * Gets all the rows in the table
+     * @return list of all rows in the table
+     */
+    List<ExerciseStatsDTO> getAllRows();
+
+
+    /**
      * Finds all the questions attempted by the user
      * @return list of exercise stats entires
      */

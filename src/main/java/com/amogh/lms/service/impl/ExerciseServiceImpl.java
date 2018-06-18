@@ -174,4 +174,14 @@ public class ExerciseServiceImpl implements ExerciseService {
         return totalCorrect;
     }
 
+    /**
+     * Gets the total rows in the table
+     *
+     * @return the total rows in the table
+     */
+    @Override
+    public Long getTotalRows() {
+        return this.exerciseRepository.count();
+    }
+
 }

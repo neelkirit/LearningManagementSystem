@@ -87,6 +87,16 @@ public class ExerciseStatsServiceImpl implements ExerciseStatsService {
     }
 
     /**
+     * Gets all the rows in the table
+     *
+     * @return the list of all the rows in the table
+     */
+    public List<ExerciseStatsDTO> getAllRows() {
+        List<ExerciseStats> allRows = this.exerciseStatsRepository.findAll();
+        return this.exerciseStatsMapper.toDto(allRows);
+    }
+
+    /**
      * Finds all the questions attempted by the user
      *
      * @return list of exercise stats entires

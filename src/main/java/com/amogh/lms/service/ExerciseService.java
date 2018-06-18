@@ -77,4 +77,10 @@ public interface ExerciseService {
      * @return number of exercise stats updated
      */
     Integer submitExerciseStats(List<ExerciseDetailsDTO> exerciseDetailsDTOS);
+
+    /**
+     * Gets the total rows in the table
+     * @return the total rows in the table
+     */
+    Long getTotalRows();
 }
