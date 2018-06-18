@@ -144,7 +144,7 @@ public class AssessmentResource {
      * @param assessmentExerciseDTOS the question config DTO with details to fetch
      * @return the ResponseEntity with status 200 (OK) and with body tthe list of exercise dtos, or with status 404 (Not Found)
      */
-    @PostMapping("/assessments/course")
+    @PostMapping("/assessments/course/submit")
     @Timed
     public ResponseEntity<Map<String, Float>> updateAssessmentStats(@Valid @RequestBody List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
         log.debug("REST request to store stats for assessment");
