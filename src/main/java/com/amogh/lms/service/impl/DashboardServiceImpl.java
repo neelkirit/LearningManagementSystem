@@ -121,7 +121,7 @@ public class DashboardServiceImpl implements DashboardService {
         Map<Long, Integer> questAttemptedByUser = questionsStats.get("QuestionsAttempted");
         UserDTO currentUser = this.getCurrentUser();
         Integer questAttempted = questAttemptedByUser.get(currentUser.getId());
-        Long progress = null;
+        Long progress;
         if (questAttempted == null) {
             progress = 0L;
         } else {
