@@ -1,9 +1,7 @@
 package com.amogh.lms.service.impl;
 
 import com.amogh.lms.service.*;
-import com.amogh.lms.service.dto.DashboardDTO;
-import com.amogh.lms.service.dto.ExerciseStatsDTO;
-import com.amogh.lms.service.dto.UserDTO;
+import com.amogh.lms.service.dto.*;
 import com.amogh.lms.web.rest.errors.InternalServerErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +18,8 @@ public class DashboardServiceImpl implements DashboardService {
 
     private ExerciseStatsService exerciseStatsService;
 
+    private CourseService courseService;
+
     private TopicService topicService;
 
     private ExerciseService exerciseService;
@@ -32,11 +32,13 @@ public class DashboardServiceImpl implements DashboardService {
         ExerciseStatsService exerciseStatsService,
         TopicService topicService,
         ExerciseService exerciseService,
-        UserService userService) {
+        UserService userService,
+        CourseService courseService) {
         this.exerciseStatsService = exerciseStatsService;
         this.topicService = topicService;
         this.exerciseService = exerciseService;
         this.userService = userService;
+        this.courseService = courseService;
         this.initWeightage();
     }
 
@@ -94,9 +96,7 @@ public class DashboardServiceImpl implements DashboardService {
         UserDTO currentUser = this.getCurrentUser();
         Integer totalAttempted = questAttemptedByUser.get(currentUser.getId());
         Integer totalErrors = 0;
-        if (totalAttempted == null) {
-            totalErrors = 0;
-        } else {
+        if (totalAttempted != null) {
             Map<Long, Integer> questAnsweredByUser = questionsStats.get("QuestionsAnswered");
             Integer totalAnswered = questAnsweredByUser.get(currentUser.getId());
             if (totalAnswered == null) {
@@ -113,7 +113,7 @@ public class DashboardServiceImpl implements DashboardService {
      * @return overall progress of user
      */
     @Override
-    public Integer getUserProgress(Map<String, Map<Long, Integer>> questionsStats) {
+    public String getUserProgress(Map<String, Map<Long, Integer>> questionsStats) {
         if (questionsStats == null) {
             questionsStats = this.getQuestionsStatsByUsers();
         }
@@ -121,13 +121,13 @@ public class DashboardServiceImpl implements DashboardService {
         Map<Long, Integer> questAttemptedByUser = questionsStats.get("QuestionsAttempted");
         UserDTO currentUser = this.getCurrentUser();
         Integer questAttempted = questAttemptedByUser.get(currentUser.getId());
-        Long progress;
+        Float progress;
         if (questAttempted == null) {
-            progress = 0L;
+            progress = 0F;
         } else {
-            progress = (questAttempted/totalExerciseRows) * 100;
+            progress = ((float)questAttempted/totalExerciseRows) * 100F;
         }
-        return progress.intValue();
+        return String.format("%.2f", progress);
     }
 
     /**
@@ -143,7 +143,69 @@ public class DashboardServiceImpl implements DashboardService {
         dashboardDTO.setUserQuestionsAttempted(this.getNumberOfUserQuestions(questionsStats));
         dashboardDTO.setUserQuestionsErrored(this.getNumberOfUserErrors(questionsStats));
         dashboardDTO.setUserRank(this.getUserRank(questionsStats));
+        dashboardDTO.setUserProgressByCourse(this.getUserProgressByCourse());
         return dashboardDTO;
+    }
+
+    /**
+     * Gets user progress by course
+     *
+     * @return course name with its corresponding progress
+     */
+    @Override
+    public Map<String, Float> getUserProgressByCourse() {
+        // Find progress per course for user
+        Map<Long, Integer> questsAnsweredByUserPerTopic = new HashMap<>();
+        List<ExerciseStatsDTO> exerciseStatsDTOS = this.exerciseStatsService.findByLoggedInUser();
+        for (ExerciseStatsDTO exerciseStatsDTO : exerciseStatsDTOS) {
+            if (exerciseStatsDTO.isStatus()) {
+                ExerciseDTO exerciseDTO = this.exerciseService.findOne(exerciseStatsDTO.getExerciseId());
+                Integer answeredByTopicCount = questsAnsweredByUserPerTopic.get(exerciseDTO.getTopicId());
+                if (answeredByTopicCount == null) {
+                    answeredByTopicCount = 1;
+                } else {
+                    ++answeredByTopicCount;
+                }
+                questsAnsweredByUserPerTopic.put(exerciseDTO.getTopicId(), answeredByTopicCount);
+            }
+        }
+        Map<Long, Integer> totalTopicCompletedByCourse = new HashMap<>();
+        for (Map.Entry<Long, Integer> entry : questsAnsweredByUserPerTopic.entrySet()) {
+            Long topicId = entry.getKey();
+            Integer totalQuestsAnsweredForTopic = entry.getValue();
+            if (totalQuestsAnsweredForTopic > 20) {
+                TopicDTO topicDTO = this.topicService.findOne(topicId);
+                Integer totalTopicsCompletedByCourse = totalTopicCompletedByCourse.get(topicDTO.getCourseId());
+                if (totalTopicsCompletedByCourse == null) {
+                    totalTopicsCompletedByCourse = 1;
+                } else {
+                    ++totalTopicsCompletedByCourse;
+                }
+                totalTopicCompletedByCourse.put(topicDTO.getCourseId(), totalTopicsCompletedByCourse);
+            }
+        }
+        Map<Long, Integer> totalTopicByCourse = new HashMap<>();
+        List<CourseDTO> courseDTOS = this.courseService.findAll();
+        for (CourseDTO courseDTO : courseDTOS) {
+            int totalTopicsByCourse = this.topicService.findByCourseId(courseDTO.getId()).size();
+            totalTopicByCourse.put(courseDTO.getId(), totalTopicsByCourse);
+        }
+        Map<String, Float> userProgressByCourse = new HashMap<>();
+        for (Map.Entry<Long, Integer> entry : totalTopicByCourse.entrySet()) {
+            Long courseId = entry.getKey();
+            Integer totalTopicsUnderCourse = entry.getValue();
+            if(totalTopicsUnderCourse == null || totalTopicsUnderCourse == 0) {
+                totalTopicsUnderCourse = 1;
+            }
+            Integer topicsCompletedByCourse = totalTopicCompletedByCourse.get(courseId);
+            if(topicsCompletedByCourse == null) {
+                topicsCompletedByCourse = 0;
+            }
+            Float courseProgress = ((float)topicsCompletedByCourse/totalTopicsUnderCourse) * 100F;
+            CourseDTO courseDTO = this.courseService.findOne(courseId);
+            userProgressByCourse.put(courseDTO.getName(), courseProgress);
+        }
+        return userProgressByCourse;
     }
 
 
@@ -174,7 +236,7 @@ public class DashboardServiceImpl implements DashboardService {
         return result;
     }
 
-    public Map<String, Map<Long, Integer>> getQuestionsStatsByUsers() {
+    private Map<String, Map<Long, Integer>> getQuestionsStatsByUsers() {
         Map<Long, Integer> questAttemptedByUser = new HashMap<>();
         Map<Long, Integer> questAnsweredByUser = new HashMap<>();
         List<ExerciseStatsDTO> allRows = this.exerciseStatsService.getAllRows();
@@ -201,6 +263,7 @@ public class DashboardServiceImpl implements DashboardService {
         questionStats.put("QuestionsAnswered", questAnsweredByUser);
         return questionStats;
     }
+
 
     private UserDTO getCurrentUser() {
         UserDTO userDTO = userService.getUserWithAuthorities()

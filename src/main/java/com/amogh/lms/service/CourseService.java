@@ -4,6 +4,8 @@ import com.amogh.lms.service.dto.CourseDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Service Interface for managing Course.
  */
@@ -40,7 +42,12 @@ public interface CourseService {
      */
     void delete(Long id);
 
-
+    /**
+     * Get all the courses.
+     *
+     * @return the list of entities
+     */
+    List<CourseDTO> findAll();
 
     /**
      * Finds the course by the name

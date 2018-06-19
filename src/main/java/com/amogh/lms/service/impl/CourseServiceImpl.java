@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 /**
  * Service Implementation for managing Course.
@@ -82,6 +84,17 @@ public class CourseServiceImpl implements CourseService {
     public void delete(Long id) {
         log.debug("Request to delete Course : {}", id);
         courseRepository.delete(id);
+    }
+
+    /**
+     * Get all the courses.
+     *
+     * @return the list of entities
+     */
+    @Override
+    public List<CourseDTO> findAll() {
+        List<Course> courses = this.courseRepository.findAll();
+        return this.courseMapper.toDto(courses);
     }
 
     @Override

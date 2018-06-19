@@ -108,4 +108,15 @@ public class TopicServiceImpl implements TopicService {
         List<Topic> topicList = topicRepository.findByCourseId(courseId);
         return topicMapper.toDto(topicList);
     }
+
+    /**
+     * Get all topics without pagination
+     *
+     * @return get all topic DTOs
+     */
+    @Override
+    public List<TopicDTO> findAll() {
+        List<Topic> allTopics = this.topicRepository.findAll();
+        return this.topicMapper.toDto(allTopics);
+    }
 }
