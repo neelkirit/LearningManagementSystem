@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * Dashboard controller
  */
@@ -51,8 +53,16 @@ public class DashboardResource {
     * GET getUserProgress
     */
     @GetMapping("/user-progress")
-    public Integer getUserProgress() {
+    public String getUserProgress() {
         return this.dashboardService.getUserProgress(null);
+    }
+
+    /**
+     * GET user progress by course
+     */
+    @GetMapping("/user-progress/course")
+    public Map<String, Float> getUserProgressByCourse() {
+        return this.dashboardService.getUserProgressByCourse();
     }
 
     /**

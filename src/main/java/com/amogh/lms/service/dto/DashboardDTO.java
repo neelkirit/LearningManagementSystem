@@ -1,16 +1,19 @@
 package com.amogh.lms.service.dto;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class DashboardDTO implements Serializable {
 
     private Integer userRank;
 
-    private Integer userProgress;
+    private String userProgress;
 
     private Integer userQuestionsAttempted;
 
     private Integer userQuestionsErrored;
+
+    private Map<String, Float> userProgressByCourse;
 
     public Integer getUserRank() {
         return userRank;
@@ -20,11 +23,11 @@ public class DashboardDTO implements Serializable {
         this.userRank = userRank;
     }
 
-    public Integer getUserProgress() {
+    public String getUserProgress() {
         return userProgress;
     }
 
-    public void setUserProgress(Integer userProgress) {
+    public void setUserProgress(String userProgress) {
         this.userProgress = userProgress;
     }
 
@@ -42,5 +45,13 @@ public class DashboardDTO implements Serializable {
 
     public void setUserQuestionsErrored(Integer userQuestionsErrored) {
         this.userQuestionsErrored = userQuestionsErrored;
+    }
+
+    public Map<String, Float> getUserProgressByCourse() {
+        return userProgressByCourse;
+    }
+
+    public void setUserProgressByCourse(Map<String, Float> userProgressByCourse) {
+        this.userProgressByCourse = userProgressByCourse;
     }
 }

@@ -55,4 +55,10 @@ public interface TopicService {
      * @return List of topic DTO objects
      */
     List<TopicDTO> findByCourseId(Long courseId);
+
+    /**
+     * Get all topics without pagination
+     * @return get all topic DTOs
+     */
+    List<TopicDTO> findAll();
 }

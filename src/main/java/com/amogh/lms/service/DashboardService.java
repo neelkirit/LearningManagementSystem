@@ -28,11 +28,17 @@ public interface DashboardService {
      * Gets the user progress
      * @return overall progress of user
      */
-    Integer getUserProgress(Map<String, Map<Long, Integer>> questionsStats);
+    String getUserProgress(Map<String, Map<Long, Integer>> questionsStats);
 
     /**
      * Gets all the stats consolidated into one. Much lesser queries to be fired
      * @return Dashboard DTO instance with relevant stats
      */
     DashboardDTO getAllDashboardStats();
+
+    /**
+     * Gets user progress by course
+     * @return course name with its corresponding progress
+     */
+    Map<String, Float> getUserProgressByCourse();
 }
