@@ -8,6 +8,7 @@ import { AmoghServerAssessmentModule } from './assessment/assessment.module';
 import { AmoghServerAssessmentStatsModule } from './assessment-stats/assessment-stats.module';
 import { AmoghServerExerciseStatsModule } from './exercise-stats/exercise-stats.module';
 import { AmoghServerAadharEnrollFormModule } from './aadhar-enroll-form/aadhar-enroll-form.module';
+import { AmoghServerFormModule } from './form/form.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -20,6 +21,7 @@ import { AmoghServerAadharEnrollFormModule } from './aadhar-enroll-form/aadhar-e
         AmoghServerAssessmentStatsModule,
         AmoghServerExerciseStatsModule,
         AmoghServerAadharEnrollFormModule,
+        AmoghServerFormModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

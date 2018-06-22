@@ -1,0 +1,30 @@
+
+<div *ngIf="form">
+    <h2><span jhiTranslate="amoghServerApp.form.detail.title">Form</span> {{form.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="amoghServerApp.form.name">Name</span></dt>
+        <dd>
+            <span>{{form.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.form.content">Content</span></dt>
+        <dd>
+            <span>{{form.content}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'form/'+ form.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
