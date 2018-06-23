@@ -55,4 +55,10 @@ public interface CourseService {
      * @return CourseDTO entity object
      */
     CourseDTO findByName(String name);
+
+    /**
+     * Returns courses for which assessments exists
+     * @return list of course DTOs
+     */
+    List<CourseDTO> findCoursesByAssessment();
 }

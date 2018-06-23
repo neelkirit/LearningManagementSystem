@@ -92,16 +92,27 @@ public class CourseResource {
     /**
      * GET  /courses : get all the courses.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of courses in body
      */
     @GetMapping("/courses")
     @Timed
-    public ResponseEntity<List<CourseDTO>> getAllCourses(Pageable pageable) {
-        log.debug("REST request to get a page of Courses");
-        Page<CourseDTO> page = courseService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/courses");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    public ResponseEntity<List<CourseDTO>> getAllCourses() {
+        log.debug("REST request to get a list of Courses");
+        List<CourseDTO> courseDTOS = courseService.findAll();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(courseDTOS));
+    }
+
+    /**
+     * GET  /courses : get all the courses.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of courses in body
+     */
+    @GetMapping("/courses/assessments")
+    @Timed
+    public ResponseEntity<List<CourseDTO>> getAllCoursesWithAssessments() {
+        log.debug("REST request to get a list of Courses");
+        List<CourseDTO> courseDTOS = courseService.findCoursesByAssessment();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(courseDTOS));
     }
 
     /**

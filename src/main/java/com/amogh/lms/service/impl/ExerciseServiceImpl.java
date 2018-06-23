@@ -116,15 +116,6 @@ public class ExerciseServiceImpl implements ExerciseService {
         return exerciseMapper.toDto(exerciseList);
     }
 
-    @Override
-    public List<ExerciseDTO> findByTopicDTOList(List<TopicDTO> topicDTOList) {
-        List<ExerciseDTO> exerciseDTOList = new ArrayList();
-        for (TopicDTO topicDTO : topicDTOList){
-            exerciseDTOList.addAll(this.findByTopicId(topicDTO.getId()));
-        }
-        return exerciseDTOList;
-    }
-
     /**
      * Get exercises for a given topic id
      * @param topicId the topic id

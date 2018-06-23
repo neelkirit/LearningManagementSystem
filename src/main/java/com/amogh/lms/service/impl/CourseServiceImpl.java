@@ -1,8 +1,10 @@
 package com.amogh.lms.service.impl;
 
+import com.amogh.lms.service.AssessmentService;
 import com.amogh.lms.service.CourseService;
 import com.amogh.lms.domain.Course;
 import com.amogh.lms.repository.CourseRepository;
+import com.amogh.lms.service.dto.AssessmentDTO;
 import com.amogh.lms.service.dto.CourseDTO;
 import com.amogh.lms.service.mapper.CourseMapper;
 import org.slf4j.Logger;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,9 +31,16 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseMapper courseMapper;
 
-    public CourseServiceImpl(CourseRepository courseRepository, CourseMapper courseMapper) {
+    private final AssessmentService assessmentService;
+
+    public CourseServiceImpl(
+        CourseRepository courseRepository,
+        CourseMapper courseMapper,
+        AssessmentService assessmentService
+    ) {
         this.courseRepository = courseRepository;
         this.courseMapper = courseMapper;
+        this.assessmentService = assessmentService;
     }
 
     /**
@@ -102,5 +112,16 @@ public class CourseServiceImpl implements CourseService {
     public CourseDTO findByName(String name) {
         Course course = courseRepository.findByName(name);
         return courseMapper.toDto(course);
+    }
+
+    @Override
+    public List<CourseDTO> findCoursesByAssessment() {
+        List<CourseDTO> courseDTOS = new ArrayList<>();
+        List<AssessmentDTO> assessmentDTOS = this.assessmentService.findAll();
+        for (AssessmentDTO assessmentDTO: assessmentDTOS) {
+            CourseDTO courseDTO = this.findOne(assessmentDTO.getId());
+            courseDTOS.add(courseDTO);
+        }
+        return courseDTOS;
     }
 }
