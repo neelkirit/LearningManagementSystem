@@ -1,0 +1,70 @@
+<div>
+    <h2>
+        <span jhiTranslate="amoghServerApp.formAttributes.home.title">Form Attributes</span>
+        <button class="btn btn-primary float-right jh-create-entity create-form-attributes" [routerLink]="['/', { outlets: { popup: ['form-attributes-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="amoghServerApp.formAttributes.home.createLabel">
+            Create new Form Attributes
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="formAttributes">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="amoghServerApp.formAttributes.name">Name</span></th>
+            <th><span jhiTranslate="amoghServerApp.formAttributes.type">Type</span></th>
+            <th><span jhiTranslate="amoghServerApp.formAttributes.isMandatory">Is Mandatory</span></th>
+            <th><span jhiTranslate="amoghServerApp.formAttributes.content">Content</span></th>
+            <th><span jhiTranslate="amoghServerApp.formAttributes.form">Form</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let formAttributes of formAttributes ;trackBy: trackId">
+                <td><a [routerLink]="['../form-attributes', formAttributes.id ]">{{formAttributes.id}}</a></td>
+                <td>{{formAttributes.name}}</td>
+                <td>{{formAttributes.type}}</td>
+                <td>{{formAttributes.isMandatory}}</td>
+                <td>{{formAttributes.content}}</td>
+                <td>
+                    <div *ngIf="formAttributes.formId">
+                        <a [routerLink]="['../form', formAttributes.formId  ]" >{{formAttributes.formName}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../form-attributes', formAttributes.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'form-attributes/'+ formAttributes.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'form-attributes/'+ formAttributes.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -24,11 +24,6 @@ public class Form implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @Lob
-    @Column(name = "content", nullable = false)
-    private String content;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -49,19 +44,6 @@ public class Form implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Form content(String content) {
-        this.content = content;
-        return this;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -90,7 +72,6 @@ public class Form implements Serializable {
         return "Form{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", content='" + getContent() + "'" +
             "}";
     }
 }

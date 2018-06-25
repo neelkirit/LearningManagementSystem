@@ -3,21 +3,21 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { Form } from './form.model';
-import { FormService } from './form.service';
+import { FormAttributes } from './form-attributes.model';
+import { FormAttributesService } from './form-attributes.service';
 import { Principal } from '../../shared';
 
 @Component({
-    selector: 'jhi-form',
-    templateUrl: './form.component.html'
+    selector: 'jhi-form-attributes',
+    templateUrl: './form-attributes.component.html'
 })
-export class FormComponent implements OnInit, OnDestroy {
-forms: Form[];
+export class FormAttributesComponent implements OnInit, OnDestroy {
+formAttributes: FormAttributes[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
     constructor(
-        private formService: FormService,
+        private formAttributesService: FormAttributesService,
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal
@@ -25,9 +25,9 @@ forms: Form[];
     }
 
     loadAll() {
-        this.formService.query().subscribe(
-            (res: HttpResponse<Form[]>) => {
-                this.forms = res.body;
+        this.formAttributesService.query().subscribe(
+            (res: HttpResponse<FormAttributes[]>) => {
+                this.formAttributes = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -37,18 +37,18 @@ forms: Form[];
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
-        this.registerChangeInForms();
+        this.registerChangeInFormAttributes();
     }
 
     ngOnDestroy() {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: Form) {
+    trackId(index: number, item: FormAttributes) {
         return item.id;
     }
-    registerChangeInForms() {
-        this.eventSubscriber = this.eventManager.subscribe('formListModification', (response) => this.loadAll());
+    registerChangeInFormAttributes() {
+        this.eventSubscriber = this.eventManager.subscribe('formAttributesListModification', (response) => this.loadAll());
     }
 
     private onError(error) {

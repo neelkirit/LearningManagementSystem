@@ -1,0 +1,26 @@
+
+{
+    "amoghServerApp": {
+        "formAttributes" : {
+            "home": {
+                "title": "FormAttributes",
+                "createLabel": "नया Form Attributes बनाएँ",
+                "createOrEditLabel": "Form Attributes बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Form Attributes [identifier: {{ param }}] तैयार है",
+            "updated": "एक Form Attributes [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Form Attributes [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Form Attributes [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Form Attributes"
+            },
+            "name": "Name",
+            "type": "Type",
+            "isMandatory": "Is Mandatory",
+            "content": "Content",
+            "form": "Form"
+        }
+    }
+}

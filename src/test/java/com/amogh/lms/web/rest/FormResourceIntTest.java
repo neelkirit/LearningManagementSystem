@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -44,9 +43,6 @@ public class FormResourceIntTest {
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_CONTENT = "AAAAAAAAAA";
-    private static final String UPDATED_CONTENT = "BBBBBBBBBB";
 
     @Autowired
     private FormRepository formRepository;
@@ -92,8 +88,7 @@ public class FormResourceIntTest {
      */
     public static Form createEntity(EntityManager em) {
         Form form = new Form()
-            .name(DEFAULT_NAME)
-            .content(DEFAULT_CONTENT);
+            .name(DEFAULT_NAME);
         return form;
     }
 
@@ -119,7 +114,6 @@ public class FormResourceIntTest {
         assertThat(formList).hasSize(databaseSizeBeforeCreate + 1);
         Form testForm = formList.get(formList.size() - 1);
         assertThat(testForm.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testForm.getContent()).isEqualTo(DEFAULT_CONTENT);
     }
 
     @Test
@@ -163,25 +157,6 @@ public class FormResourceIntTest {
 
     @Test
     @Transactional
-    public void checkContentIsRequired() throws Exception {
-        int databaseSizeBeforeTest = formRepository.findAll().size();
-        // set the field null
-        form.setContent(null);
-
-        // Create the Form, which fails.
-        FormDTO formDTO = formMapper.toDto(form);
-
-        restFormMockMvc.perform(post("/api/forms")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(formDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Form> formList = formRepository.findAll();
-        assertThat(formList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllForms() throws Exception {
         // Initialize the database
         formRepository.saveAndFlush(form);
@@ -191,8 +166,7 @@ public class FormResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(form.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].content").value(hasItem(DEFAULT_CONTENT.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
 
     @Test
@@ -206,8 +180,7 @@ public class FormResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(form.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
 
     @Test
@@ -230,8 +203,7 @@ public class FormResourceIntTest {
         // Disconnect from session so that the updates on updatedForm are not directly saved in db
         em.detach(updatedForm);
         updatedForm
-            .name(UPDATED_NAME)
-            .content(UPDATED_CONTENT);
+            .name(UPDATED_NAME);
         FormDTO formDTO = formMapper.toDto(updatedForm);
 
         restFormMockMvc.perform(put("/api/forms")
@@ -244,7 +216,6 @@ public class FormResourceIntTest {
         assertThat(formList).hasSize(databaseSizeBeforeUpdate);
         Form testForm = formList.get(formList.size() - 1);
         assertThat(testForm.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testForm.getContent()).isEqualTo(UPDATED_CONTENT);
     }
 
     @Test

@@ -1,0 +1,44 @@
+
+<div *ngIf="formAttributes">
+    <h2><span jhiTranslate="amoghServerApp.formAttributes.detail.title">Form Attributes</span> {{formAttributes.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="amoghServerApp.formAttributes.name">Name</span></dt>
+        <dd>
+            <span>{{formAttributes.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.formAttributes.type">Type</span></dt>
+        <dd>
+            <span>{{formAttributes.type}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.formAttributes.isMandatory">Is Mandatory</span></dt>
+        <dd>
+            <span>{{formAttributes.isMandatory}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.formAttributes.content">Content</span></dt>
+        <dd>
+            <span>{{formAttributes.content}}</span>
+        </dd>
+        <dt><span jhiTranslate="amoghServerApp.formAttributes.form">Form</span></dt>
+        <dd>
+            <div *ngIf="formAttributes.formId">
+                <a [routerLink]="['/form', formAttributes.formId]">{{formAttributes.formName}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'form-attributes/'+ formAttributes.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -4,7 +4,6 @@ package com.amogh.lms.service.dto;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Lob;
 
 /**
  * A DTO for the Form entity.
@@ -15,10 +14,6 @@ public class FormDTO implements Serializable {
 
     @NotNull
     private String name;
-
-    @NotNull
-    @Lob
-    private String content;
 
     public Long getId() {
         return id;
@@ -34,14 +29,6 @@ public class FormDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     @Override
@@ -70,7 +57,6 @@ public class FormDTO implements Serializable {
         return "FormDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", content='" + getContent() + "'" +
             "}";
     }
 }

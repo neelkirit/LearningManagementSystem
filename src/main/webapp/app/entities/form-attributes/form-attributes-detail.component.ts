@@ -4,22 +4,22 @@ import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Form } from './form.model';
-import { FormService } from './form.service';
+import { FormAttributes } from './form-attributes.model';
+import { FormAttributesService } from './form-attributes.service';
 
 @Component({
-    selector: 'jhi-form-detail',
-    templateUrl: './form-detail.component.html'
+    selector: 'jhi-form-attributes-detail',
+    templateUrl: './form-attributes-detail.component.html'
 })
-export class FormDetailComponent implements OnInit, OnDestroy {
+export class FormAttributesDetailComponent implements OnInit, OnDestroy {
 
-    form: Form;
+    formAttributes: FormAttributes;
     private subscription: Subscription;
     private eventSubscriber: Subscription;
 
     constructor(
         private eventManager: JhiEventManager,
-        private formService: FormService,
+        private formAttributesService: FormAttributesService,
         private route: ActivatedRoute
     ) {
     }
@@ -28,13 +28,13 @@ export class FormDetailComponent implements OnInit, OnDestroy {
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
-        this.registerChangeInForms();
+        this.registerChangeInFormAttributes();
     }
 
     load(id) {
-        this.formService.find(id)
-            .subscribe((formResponse: HttpResponse<Form>) => {
-                this.form = formResponse.body;
+        this.formAttributesService.find(id)
+            .subscribe((formAttributesResponse: HttpResponse<FormAttributes>) => {
+                this.formAttributes = formAttributesResponse.body;
             });
     }
     previousState() {
@@ -46,10 +46,10 @@ export class FormDetailComponent implements OnInit, OnDestroy {
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    registerChangeInForms() {
+    registerChangeInFormAttributes() {
         this.eventSubscriber = this.eventManager.subscribe(
-            'formListModification',
-            (response) => this.load(this.form.id)
+            'formAttributesListModification',
+            (response) => this.load(this.formAttributes.id)
         );
     }
 }

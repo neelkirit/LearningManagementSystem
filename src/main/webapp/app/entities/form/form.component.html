@@ -18,7 +18,6 @@
             <tr>
             <th><span jhiTranslate="global.field.id">ID</span></th>
             <th><span jhiTranslate="amoghServerApp.form.name">Name</span></th>
-            <th><span jhiTranslate="amoghServerApp.form.content">Content</span></th>
             <th></th>
             </tr>
             </thead>
@@ -26,7 +25,6 @@
             <tr *ngFor="let form of forms ;trackBy: trackId">
                 <td><a [routerLink]="['../form', form.id ]">{{form.id}}</a></td>
                 <td>{{form.name}}</td>
-                <td>{{form.content}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

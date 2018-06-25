@@ -4,7 +4,7 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 
 import { Form } from './form.model';
 import { FormPopupService } from './form-popup.service';
@@ -21,7 +21,6 @@ export class FormDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private dataUtils: JhiDataUtils,
         private formService: FormService,
         private eventManager: JhiEventManager
     ) {
@@ -29,18 +28,6 @@ export class FormDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-    }
-
-    byteSize(field) {
-        return this.dataUtils.byteSize(field);
-    }
-
-    openFile(contentType, field) {
-        return this.dataUtils.openFile(contentType, field);
-    }
-
-    setFileData(event, entity, field, isImage) {
-        this.dataUtils.setFileData(event, entity, field, isImage);
     }
 
     clear() {
