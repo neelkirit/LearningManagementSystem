@@ -60,7 +60,11 @@ public class DashboardServiceImpl implements DashboardService {
         }
         Map<Long, Integer> userRanks = this.getRankByUsers(questionsStats);
         UserDTO userDTO = this.getCurrentUser();
-        return userRanks.get(userDTO.getId());
+        Integer userRank = userRanks.get(userDTO.getId());
+        if (userRank == null) {
+            userRank = 0;
+        }
+        return userRank;
     }
 
     /**

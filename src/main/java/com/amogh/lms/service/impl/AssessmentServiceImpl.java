@@ -71,15 +71,14 @@ public class AssessmentServiceImpl implements AssessmentService {
     /**
      * Get all the assessments.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public Page<AssessmentDTO> findAll(Pageable pageable) {
+    public List<AssessmentDTO> findAll() {
         log.debug("Request to get all Assessments");
-        return assessmentRepository.findAll(pageable)
-            .map(assessmentMapper::toDto);
+        List<Assessment> assessments = assessmentRepository.findAll();
+        return this.assessmentMapper.toDto(assessments);
     }
 
     /**
@@ -148,7 +147,7 @@ public class AssessmentServiceImpl implements AssessmentService {
      * @return stats on how many answers the user got right
      */
     @Override
-    public Map<String, Float> updateAssessmentStats(List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
+    public Map<String, Number> updateAssessmentStats(List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
         Long assessmentId = null;
         Long userId = null;
         int answeredCorrect = 0;
@@ -182,8 +181,9 @@ public class AssessmentServiceImpl implements AssessmentService {
             assessmentStatsDTO.setScore(assessmentScore);
         }
         this.assessmentStatsService.save(assessmentStatsDTO);
-        Map<String, Float> results = new HashMap<>();
+        Map<String, Number> results = new HashMap<>();
         results.put("assessmentScore", assessmentScore);
+        results.put("answeredCorrect", answeredCorrect);
         return results;
     }
 }

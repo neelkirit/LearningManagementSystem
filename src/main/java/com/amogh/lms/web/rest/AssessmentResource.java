@@ -86,16 +86,14 @@ public class AssessmentResource {
     /**
      * GET  /assessments : get all the assessments.
      *
-     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of assessments in body
      */
     @GetMapping("/assessments")
     @Timed
-    public ResponseEntity<List<AssessmentDTO>> getAllAssessments(Pageable pageable) {
+    public ResponseEntity<List<AssessmentDTO>> getAllAssessments() {
         log.debug("REST request to get a page of Assessments");
-        Page<AssessmentDTO> page = assessmentService.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/assessments");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        List<AssessmentDTO> assessmentDTOS = assessmentService.findAll();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentDTOS));
     }
 
     /**
@@ -119,7 +117,7 @@ public class AssessmentResource {
      * @param questionConfigDTO the question config DTO with details to fetch
      * @return the ResponseEntity with status 200 (OK) and with body tthe list of exercise dtos, or with status 404 (Not Found)
      */
-    @PostMapping("/assessments/course")
+    @PostMapping("/assessments/exercises")
     @Timed
     public ResponseEntity<List<AssessmentExerciseDTO>> getExercisesForAssessment(@Valid @RequestBody QuestionConfigDTO questionConfigDTO) {
         log.debug("REST request to get questions for assessment for course : {}", questionConfigDTO.getCourseId());
@@ -144,11 +142,11 @@ public class AssessmentResource {
      * @param assessmentExerciseDTOS the question config DTO with details to fetch
      * @return the ResponseEntity with status 200 (OK) and with body tthe list of exercise dtos, or with status 404 (Not Found)
      */
-    @PostMapping("/assessments/course/submit")
+    @PostMapping("/assessments/submit")
     @Timed
-    public ResponseEntity<Map<String, Float>> updateAssessmentStats(@Valid @RequestBody List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
+    public ResponseEntity<Map<String, Number>> updateAssessmentStats(@Valid @RequestBody List<AssessmentExerciseDTO> assessmentExerciseDTOS) {
         log.debug("REST request to store stats for assessment");
-        Map<String, Float> results = this.assessmentService.updateAssessmentStats(assessmentExerciseDTOS);
+        Map<String, Number> results = this.assessmentService.updateAssessmentStats(assessmentExerciseDTOS);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(results));
     }
 

@@ -1,0 +1,23 @@
+
+{
+    "amoghServerApp": {
+        "form" : {
+            "home": {
+                "title": "Forms",
+                "createLabel": "नया Form बनाएँ",
+                "createOrEditLabel": "Form बनाएँ या संपादित करें"
+            },
+            "created": "एक नया Form [identifier: {{ param }}] तैयार है",
+            "updated": "एक Form [identifier: {{ param }}] का अद्यतन हुआ है",
+            "deleted": "Form [identifier: {{ param }}] हटा दिया है",
+            "delete": {
+                "question": "Form [id: {{ id }}] हटाने की पुष्टि करें"
+            },
+            "detail": {
+                "title": "Form"
+            },
+            "name": "Name",
+            "content": "Content"
+        }
+    }
+}

@@ -24,10 +24,9 @@ public interface AssessmentService {
     /**
      * Get all the assessments.
      *
-     * @param pageable the pagination information
      * @return the list of entities
      */
-    Page<AssessmentDTO> findAll(Pageable pageable);
+    List<AssessmentDTO> findAll();
 
     /**
      * Get the "id" assessment.
@@ -63,5 +62,5 @@ public interface AssessmentService {
      * @param assessmentExerciseDTOS list of assessment exercise
      * @return stats on how many answers the user got right
      */
-    Map<String, Float> updateAssessmentStats(List<AssessmentExerciseDTO> assessmentExerciseDTOS);
+    Map<String, Number> updateAssessmentStats(List<AssessmentExerciseDTO> assessmentExerciseDTOS);
 }
