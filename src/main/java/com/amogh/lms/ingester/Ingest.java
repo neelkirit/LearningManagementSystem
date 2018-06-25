@@ -15,13 +15,10 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -97,14 +94,11 @@ public class Ingest implements IBaseIngester {
         System.out.println("Saving Course [" + courseName + "]...");
         CourseDTO courseDTO = this.courseService.findByName(courseName);
         if (courseDTO == null) {
+            System.out.println("Course not found with name [ " + courseName + " ]. Creating one");
             courseDTO = new CourseDTO();
             courseDTO.setName(courseName);
             courseDTO = this.courseService.save(courseDTO);
-            if (courseDTO != null) {
-                System.out.println("Saved Course [" + courseName + "]...");
-            } else {
-                System.out.println("FAILED!! CHECK!! Save Course [" + courseName + "]...");
-            }
+            System.out.println("Saved Course [" + courseName + "]...");
         }
         return courseDTO;
     }
@@ -121,16 +115,13 @@ public class Ingest implements IBaseIngester {
         System.out.println("Saving Topic [" + topicName + "]...");
         TopicDTO topicDTO = this.topicService.findByName(topicName);
         if (topicDTO == null) {
+            System.out.println("Could not find a topic with name [ " + topicName + " ]. Creating one.");
             topicDTO = new TopicDTO();
             topicDTO.setName(topicName);
             topicDTO.setCourseId(courseDTO.getId());
             topicDTO.setCourseName(courseDTO.getName());
             topicDTO = this.topicService.save(topicDTO);
-            if (topicDTO != null) {
-                System.out.println("Saved Topic [" + topicName + "]...");
-            } else {
-                System.out.println("FAILED!! CHECK!! Save Topic [" + topicName + "]...");
-            }
+            System.out.println("Saved Topic [" + topicName + "]...");
         }
         return topicDTO;
     }
@@ -151,10 +142,11 @@ public class Ingest implements IBaseIngester {
         TopicDTO topicDTO,
         TemplateDTO templateDTO
     ) {
-        ExerciseDTO exerciseDTO = this.exerciseService.findByTemplateAndContentTypeAndContent(
+        ExerciseDTO exerciseDTO = this.exerciseService.findByTemplateAndContentTypeAndContentAndAnswer(
             this.templateMapper.toEntity(templateDTO),
             templateDTO.getContentType(),
-            content
+            content,
+            answer
         );
         if (exerciseDTO != null) {
             System.out.println("Skipping exercise. Duplicate exists already for content ["
@@ -163,6 +155,9 @@ public class Ingest implements IBaseIngester {
                 + contentType
                 + "] and template ["
                 + templateDTO.getName()
+                + "].."
+                + "and answer [ "
+                + answer
                 + "].."
             );
         } else {
@@ -173,11 +168,7 @@ public class Ingest implements IBaseIngester {
             exerciseDTO.setTopicId(topicDTO.getId());
             exerciseDTO.setAnswer(answer);
             exerciseDTO = this.exerciseService.save(exerciseDTO);
-            if (exerciseDTO == null) {
-                System.out.println("Saved the exercise successfully..");
-            } else {
-                System.out.println("FAILED!! CHECK!! Save the exercise failed..");
-            }
+            System.out.println("Saved the exercise successfully..");
         }
         return exerciseDTO;
     }

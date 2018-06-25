@@ -1,6 +1,7 @@
 package com.amogh.lms.service;
 
 import com.amogh.lms.service.dto.FormAttributesDTO;
+
 import java.util.List;
 
 /**
@@ -37,4 +38,18 @@ public interface FormAttributesService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Tries to get the row based on all four attributes for uniqueness
+     *
+     * @return Form DTO object
+     */
+    FormAttributesDTO findByFormIdAndNameAndTypeAndIsMandatoryAndContent(
+        Long formId,
+        String name,
+        String type,
+        Boolean isMandatory,
+        String content
+    );
+
 }

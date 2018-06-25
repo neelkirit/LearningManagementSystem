@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
-    Exercise findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content);
+    Exercise findByTemplateAndContentTypeAndContentAndAnswer(Template template, ContentType contentType, String content, String answer);
 
     List<Exercise> findByTopicId(Long topicId);
 }

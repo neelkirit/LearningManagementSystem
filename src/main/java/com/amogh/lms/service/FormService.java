@@ -37,4 +37,11 @@ public interface FormService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * The form DTO for the given name
+     * @param name the form name
+     * @return form DTO object
+     */
+    FormDTO findByName(String name);
 }

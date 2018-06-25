@@ -53,7 +53,7 @@ public interface ExerciseService {
      * @param content the content
      * @return ExceriseDTO object
      */
-    ExerciseDTO findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content);
+    ExerciseDTO findByTemplateAndContentTypeAndContentAndAnswer(Template template, ContentType contentType, String content, String answer);
 
     /**
      * Finds the excercise given a topic ID

@@ -4,13 +4,14 @@ import com.amogh.lms.domain.Exercise;
 import com.amogh.lms.domain.Template;
 import com.amogh.lms.domain.enumeration.ContentType;
 import com.amogh.lms.repository.ExerciseRepository;
-import com.amogh.lms.repository.TemplateRepository;
 import com.amogh.lms.service.ExerciseService;
 import com.amogh.lms.service.ExerciseStatsService;
 import com.amogh.lms.service.TemplateService;
-import com.amogh.lms.service.dto.*;
+import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.ExerciseDetailsDTO;
+import com.amogh.lms.service.dto.ExerciseStatsDTO;
+import com.amogh.lms.service.dto.TemplateDTO;
 import com.amogh.lms.service.mapper.ExerciseMapper;
-import com.amogh.lms.service.mapper.TemplateMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -105,8 +106,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public ExerciseDTO findByTemplateAndContentTypeAndContent(Template template, ContentType contentType, String content) {
-        Exercise exercise = exerciseRepository.findByTemplateAndContentTypeAndContent(template, contentType, content);
+    public ExerciseDTO findByTemplateAndContentTypeAndContentAndAnswer(Template template, ContentType contentType, String content, String answer) {
+        Exercise exercise = exerciseRepository.findByTemplateAndContentTypeAndContentAndAnswer(
+            template,
+            contentType,
+            content,
+            answer
+        );
         return exerciseMapper.toDto(exercise);
     }
 
@@ -118,6 +124,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     /**
      * Get exercises for a given topic id
+     *
      * @param topicId the topic id
      * @return Exercise DTOs
      */
@@ -126,7 +133,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         List<Exercise> exercisesForTopicId = this.exerciseRepository.findByTopicId(topicId);
         List<ExerciseDTO> exerciseDTOs = this.exerciseMapper.toDto(exercisesForTopicId);
         List<ExerciseDetailsDTO> exerciseDetailsDTOs = new ArrayList<>();
-        for ( ExerciseDTO exerciseDTO : exerciseDTOs) {
+        for (ExerciseDTO exerciseDTO : exerciseDTOs) {
             TemplateDTO templateDTO = this.templateService.findOne(exerciseDTO.getTemplateId());
             ExerciseDetailsDTO exerciseDetailsDTO = new ExerciseDetailsDTO();
             exerciseDetailsDTO.setupDTO(exerciseDTO, templateDTO);
@@ -139,13 +146,13 @@ public class ExerciseServiceImpl implements ExerciseService {
     public Integer submitExerciseStats(List<ExerciseDetailsDTO> exerciseDetailsDTOS) {
         int totalCorrect = 0;
         List<ExerciseStatsDTO> exerciseStatsForUser = this.exerciseStatsService.findByLoggedInUser();
-        for(ExerciseDetailsDTO exerciseDetailsDTO : exerciseDetailsDTOS) {
+        for (ExerciseDetailsDTO exerciseDetailsDTO : exerciseDetailsDTOS) {
             Boolean foundExistingStat = false;
-            if(exerciseDetailsDTO.getAnswered() == true) {
+            if (exerciseDetailsDTO.getAnswered() == true) {
                 ++totalCorrect;
             }
-            for (ExerciseStatsDTO exerciseStatForUser: exerciseStatsForUser) {
-                if(exerciseDetailsDTO.getId() == exerciseStatForUser.getExerciseId()) {
+            for (ExerciseStatsDTO exerciseStatForUser : exerciseStatsForUser) {
+                if (exerciseDetailsDTO.getId() == exerciseStatForUser.getExerciseId()) {
                     foundExistingStat = true;
                     if (exerciseStatForUser.isStatus() == false && exerciseDetailsDTO.getAnswered() != exerciseStatForUser.isStatus()) {
                         exerciseStatForUser.setStatus(exerciseDetailsDTO.getAnswered());
@@ -154,7 +161,7 @@ public class ExerciseServiceImpl implements ExerciseService {
                     break;
                 }
             }
-            if(foundExistingStat == false) {
+            if (foundExistingStat == false) {
                 ExerciseStatsDTO exerciseStatsDTO = new ExerciseStatsDTO();
                 exerciseStatsDTO.setExerciseId(exerciseDetailsDTO.getId());
                 exerciseStatsDTO.setUserId(exerciseDetailsDTO.getUserId());

@@ -84,4 +84,10 @@ public class FormServiceImpl implements FormService {
         log.debug("Request to delete Form : {}", id);
         formRepository.delete(id);
     }
+
+    @Override
+    public FormDTO findByName(String name) {
+        Form form = this.formRepository.findByName(name);
+        return this.formMapper.toDto(form);
+    }
 }

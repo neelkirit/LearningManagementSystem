@@ -13,4 +13,12 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface FormAttributesRepository extends JpaRepository<FormAttributes, Long> {
 
+    FormAttributes findByFormIdAndNameAndTypeAndIsMandatoryAndContent(
+        Long formId,
+        String name,
+        String type,
+        Boolean isMandatory,
+        String content
+    );
+
 }

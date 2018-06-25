@@ -84,4 +84,16 @@ public class FormAttributesServiceImpl implements FormAttributesService {
         log.debug("Request to delete FormAttributes : {}", id);
         formAttributesRepository.delete(id);
     }
+
+    @Override
+    public FormAttributesDTO findByFormIdAndNameAndTypeAndIsMandatoryAndContent(Long formId, String name, String type, Boolean isMandatory, String content) {
+        FormAttributes formAttributes = this.formAttributesRepository.findByFormIdAndNameAndTypeAndIsMandatoryAndContent(
+            formId,
+            name,
+            type,
+            isMandatory,
+            content
+        );
+        return this.formAttributesMapper.toDto(formAttributes);
+    }
 }

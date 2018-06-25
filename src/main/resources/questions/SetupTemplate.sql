@@ -60,13 +60,13 @@ INSERT INTO template (content_type, content_prefix, content_style, name) VALUES 
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'WORD', 'Identify and type the word shown', 'CAPITALS', 'WORD_CAPITALS' );
 
-INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Identify and type the sentence shown', 'BOLD', 'SENT_BOLD' );
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Type the sentence shown', 'BOLD', 'SENT_BOLD' );
 
-INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Identify and type the sentence shown', 'ITALICS', 'SENT_ITALICS' );
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Type the sentence shown', 'ITALICS', 'SENT_ITALICS' );
 
-INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Identify and type the sentence shown', 'BOLD_ITALICS', 'SENT_BOLD_ITALICS' );
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Type the sentence shown', 'BOLD_ITALICS', 'SENT_BOLD_ITALICS' );
 
-INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Identify and type the sentence shown', 'CAPITALS', 'SENT_CAPITALS' );
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'SENTENCE', 'Type the sentence shown', 'CAPITALS', 'SENT_CAPITALS' );
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'COMBOBOX', 'Identify __ANSWER__ and select from options', 'NORMAL', 'COMBO_NORMAL' );
 
