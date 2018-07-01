@@ -12,7 +12,9 @@
             "RADIOBUTTON" : "RADIOBUTTON",
             "IMAGE" : "IMAGE",
             "FORM" : "FORM",
-            "EXCEL" : "EXCEL"
+            "EXCEL" : "EXCEL",
+            "DATE" : "DATE",
+            "MATH" : "MATH"
         }
     }
 }

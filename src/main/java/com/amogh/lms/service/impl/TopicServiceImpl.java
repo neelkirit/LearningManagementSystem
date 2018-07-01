@@ -1,10 +1,16 @@
 package com.amogh.lms.service.impl;
 
+import com.amogh.lms.service.ExerciseService;
+import com.amogh.lms.service.ExerciseStatsService;
 import com.amogh.lms.service.TopicService;
 import com.amogh.lms.domain.Topic;
 import com.amogh.lms.repository.TopicRepository;
+import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.ExerciseStatsDTO;
 import com.amogh.lms.service.dto.TopicDTO;
+import com.amogh.lms.service.dto.TopicDetailsDTO;
 import com.amogh.lms.service.mapper.TopicMapper;
+
 import java.util.*;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -29,9 +35,19 @@ public class TopicServiceImpl implements TopicService {
 
     private final TopicMapper topicMapper;
 
-    public TopicServiceImpl(TopicRepository topicRepository, TopicMapper topicMapper) {
+    private final ExerciseStatsService exerciseStatsService;
+
+    private final ExerciseService exerciseService;
+
+    public TopicServiceImpl(
+        TopicRepository topicRepository,
+        TopicMapper topicMapper,
+        ExerciseStatsService exerciseStatsService,
+        ExerciseService exerciseService) {
         this.topicRepository = topicRepository;
         this.topicMapper = topicMapper;
+        this.exerciseStatsService = exerciseStatsService;
+        this.exerciseService = exerciseService;
     }
 
     /**
@@ -89,6 +105,7 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * Finds the topic by Name
+     *
      * @param topicName the topic name
      * @return TopicDTO object if found
      */
@@ -100,13 +117,40 @@ public class TopicServiceImpl implements TopicService {
 
     /**
      * Find the topic given the topic id
+     *
      * @param courseId the course id
      * @return List of topic objects
      */
     @Override
-    public List<TopicDTO> findByCourseId(Long courseId) {
+    public List<TopicDetailsDTO> findByCourseId(Long courseId) {
+        List<TopicDetailsDTO> topicDetailsDTOS = new ArrayList<>();
         List<Topic> topicList = topicRepository.findByCourseId(courseId);
-        return topicMapper.toDto(topicList);
+        List<TopicDTO> topicDTOS = topicMapper.toDto(topicList);
+        for(TopicDTO topicDTO: topicDTOS) {
+            List<ExerciseStatsDTO> exercisesByUser = this.exerciseStatsService.findByLoggedInUser();
+            List<ExerciseDTO> exerciseDTOS = this.exerciseService.findByTopicId(topicDTO.getId());
+            Set<Long> exerciseIds = new HashSet<>();
+            for(ExerciseDTO exerciseDTO : exerciseDTOS) {
+                exerciseIds.add(exerciseDTO.getId());
+            }
+            int totalExercises = exerciseDTOS.size();
+            int answeredCorrect = 0;
+            for(ExerciseStatsDTO exerciseStatsDTO: exercisesByUser) {
+                if(exerciseStatsDTO.isStatus() && exerciseIds.contains(exerciseStatsDTO.getExerciseId())) {
+                    ++answeredCorrect;
+                }
+            }
+            float totalCompleted = ((float)answeredCorrect/totalExercises) * 100.0F;
+            TopicDetailsDTO topicDetailsDTO = new TopicDetailsDTO();
+            topicDetailsDTO.setupDTO(topicDTO);
+            if(totalCompleted > 50.0) {
+                topicDetailsDTO.setComplete(true);
+            } else {
+                topicDetailsDTO.setComplete(false);
+            }
+            topicDetailsDTOS.add(topicDetailsDTO);
+        }
+        return topicDetailsDTOS;
     }
 
     /**

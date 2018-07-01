@@ -1,5 +1,6 @@
 package com.amogh.lms.web.rest;
 
+import com.amogh.lms.service.dto.TopicDetailsDTO;
 import com.codahale.metrics.annotation.Timed;
 import com.amogh.lms.service.TopicService;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
@@ -55,9 +56,9 @@ public class TopicResource {
             throw new BadRequestAlertException("A new topic cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Long course_id = topicDTO.getCourseId();
-        List<TopicDTO> topic_dtos = topicService.findByCourseId(course_id);
-        for( TopicDTO t: topic_dtos){
-            if( t.getName().equals(topicDTO.getName())){
+        List<TopicDetailsDTO> topic_dtos = topicService.findByCourseId(course_id);
+        for (TopicDetailsDTO t : topic_dtos) {
+            if (t.getName().equals(topicDTO.getName())) {
                 throw new BadRequestAlertException("Topic already exists in this course", ENTITY_NAME, "topicexists");
             }
         }
@@ -135,13 +136,14 @@ public class TopicResource {
 
     /**
      * GET /topics/{courseId} : Get the topic given the course id
+     *
      * @return list if topics for course id
      */
     @GetMapping("/topics/course/{courseId}")
     @Timed
-    public ResponseEntity<List<TopicDTO>> getTopicsForCourseId(@PathVariable Long courseId) {
+    public ResponseEntity<List<TopicDetailsDTO>> getTopicsForCourseId(@PathVariable Long courseId) {
         log.debug("REST request to get topics for a course id {}", courseId);
-        List<TopicDTO> topicsForCourseId = this.topicService.findByCourseId(courseId);
+        List<TopicDetailsDTO> topicsForCourseId = this.topicService.findByCourseId(courseId);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(topicsForCourseId));
     }
 }

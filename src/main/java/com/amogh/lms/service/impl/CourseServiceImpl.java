@@ -120,6 +120,8 @@ public class CourseServiceImpl implements CourseService {
         List<AssessmentDTO> assessmentDTOS = this.assessmentService.findAll();
         for (AssessmentDTO assessmentDTO: assessmentDTOS) {
             CourseDTO courseDTO = this.findOne(assessmentDTO.getId());
+            Boolean assessmentCompleteness = this.assessmentService.getAssessmentCompleteness(assessmentDTO);
+            courseDTO.setComplete(assessmentCompleteness);
             courseDTOS.add(courseDTO);
         }
         return courseDTOS;

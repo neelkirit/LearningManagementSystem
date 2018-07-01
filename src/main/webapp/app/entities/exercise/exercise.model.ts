@@ -11,7 +11,9 @@ export const enum ContentType {
     'RADIOBUTTON',
     'IMAGE',
     'FORM',
-    'EXCEL'
+    'EXCEL',
+    'DATE',
+    'MATH'
 }
 
 export class Exercise implements BaseEntity {

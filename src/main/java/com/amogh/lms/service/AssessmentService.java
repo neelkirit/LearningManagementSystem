@@ -2,6 +2,7 @@ package com.amogh.lms.service;
 
 import com.amogh.lms.service.dto.AssessmentDTO;
 import com.amogh.lms.service.dto.AssessmentExerciseDTO;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -63,4 +64,10 @@ public interface AssessmentService {
      * @return stats on how many answers the user got right
      */
     Map<String, Number> updateAssessmentStats(List<AssessmentExerciseDTO> assessmentExerciseDTOS);
+
+    /**
+     * Returns true or false based on assessment's completeness
+     * @return true if complete, false otherwise
+     */
+    Boolean getAssessmentCompleteness(AssessmentDTO assessmentDTO);
 }

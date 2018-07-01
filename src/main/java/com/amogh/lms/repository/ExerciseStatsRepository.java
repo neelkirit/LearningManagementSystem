@@ -15,5 +15,4 @@ public interface ExerciseStatsRepository extends JpaRepository<ExerciseStats, Lo
 
     @Query("select exercise_stats from ExerciseStats exercise_stats where exercise_stats.user.login = ?#{principal.username}")
     List<ExerciseStats> findByUserIsCurrentUser();
-
 }
