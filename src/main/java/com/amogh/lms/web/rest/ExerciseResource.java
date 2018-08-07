@@ -1,28 +1,50 @@
 package com.amogh.lms.web.rest;
 
-import com.amogh.lms.service.dto.ExerciseDetailsDTO;
-import com.amogh.lms.service.dto.QuestionConfigDTO;
-import com.codahale.metrics.annotation.Timed;
-import com.amogh.lms.service.ExerciseService;
-import com.amogh.lms.web.rest.errors.BadRequestAlertException;
-import com.amogh.lms.web.rest.util.HeaderUtil;
-import com.amogh.lms.web.rest.util.PaginationUtil;
-import com.amogh.lms.service.dto.ExerciseDTO;
-import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.amogh.lms.domain.enumeration.ContentType;
+import com.amogh.lms.ingester.Ingest;
+import com.amogh.lms.ingester.model.IngestModel;
+import com.amogh.lms.service.ExerciseService;
+import com.amogh.lms.service.TemplateService;
+import com.amogh.lms.service.TopicService;
+import com.amogh.lms.service.dto.ExerciseDTO;
+import com.amogh.lms.service.dto.ExerciseDetailsDTO;
+import com.amogh.lms.service.dto.QuestionConfigDTO;
+import com.amogh.lms.service.mapper.TemplateMapper;
+import com.amogh.lms.service.mapper.TopicMapper;
+import com.amogh.lms.web.rest.errors.BadRequestAlertException;
+import com.amogh.lms.web.rest.util.HeaderUtil;
+import com.amogh.lms.web.rest.util.PaginationUtil;
+import com.codahale.metrics.annotation.Timed;
 
-import java.util.*;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing Exercise.
@@ -36,9 +58,24 @@ public class ExerciseResource {
     private static final String ENTITY_NAME = "exercise";
 
     private final ExerciseService exerciseService;
+    
+    private final TemplateService templateService;
+    
+    private final TopicService topicService;
+    
+    @Autowired
+    TopicMapper topicMapper;
+    
+    @Autowired
+    TemplateMapper templateMapper;
+    
+    @Autowired
+    Ingest ingest;
 
-    public ExerciseResource(ExerciseService exerciseService) {
+    public ExerciseResource(ExerciseService exerciseService, TemplateService templateService, TopicService topicService) {
         this.exerciseService = exerciseService;
+        this.templateService = templateService;
+        this.topicService = topicService;
     }
 
     /**
@@ -157,4 +194,33 @@ public class ExerciseResource {
         answeredCorrect.put( "answeredCorrect", totalCorrect );
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(answeredCorrect));
     }
+    
+
+    @PostMapping("/exercises/uploadExercises")
+    @Timed
+    public ResponseEntity<Map<String, Integer>> uploadExcersisesSheet(@Valid @RequestBody String linesFromCsv) {
+    	log.info("Starting to upload Exercise");
+    	int count=0;    	
+    	List<IngestModel> injestModelLs = new ArrayList<>();
+    	Map<String, ContentType> contentTypeMap = new HashMap<>();
+    	for( ContentType con: ContentType.values()) {// shouldnt be here :@    		
+    		contentTypeMap.put( con.toString(), con);
+    	}
+    	String[] lines=linesFromCsv.split("\\r?\\n");  
+    	for( String l : lines) {
+    		String[] stSlit = l.split(",");
+    		IngestModel im = new IngestModel();
+    		im.setCourseName(stSlit[0].trim());
+    		im.setTopicName(stSlit[1].trim());
+    		im.setContent(stSlit[2].trim());    		
+    		im.setContentType( contentTypeMap.get(stSlit[3].trim()));
+    		im.setTemplateName(stSlit[4].trim());
+    		im.setAnswer(stSlit[5].trim());
+    		injestModelLs.add(im);
+    	}    	
+    	ingest.persist( injestModelLs );
+    	log.info("Completed saving exercise data");    	
+    return ResponseEntity.ok().headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, String.valueOf(count)) ).build();
+    }
 }
+
