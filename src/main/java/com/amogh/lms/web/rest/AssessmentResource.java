@@ -2,6 +2,7 @@ package com.amogh.lms.web.rest;
 
 import com.amogh.lms.service.AssessmentService;
 import com.amogh.lms.service.dto.AssessmentDTO;
+import com.amogh.lms.service.dto.AssessmentDetailsDTO;
 import com.amogh.lms.service.dto.AssessmentExerciseDTO;
 import com.amogh.lms.service.dto.QuestionConfigDTO;
 import com.amogh.lms.web.rest.errors.BadRequestAlertException;
@@ -90,10 +91,17 @@ public class AssessmentResource {
      */
     @GetMapping("/assessments")
     @Timed
-    public ResponseEntity<List<AssessmentDTO>> getAllAssessments() {
+    public ResponseEntity<List<AssessmentDetailsDTO>> getAllAssessments() {
         log.debug("REST request to get a page of Assessments");
+        List<AssessmentDetailsDTO> assessmentDetailsDTOS = new ArrayList<>();
         List<AssessmentDTO> assessmentDTOS = assessmentService.findAll();
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentDTOS));
+        for(AssessmentDTO assessmentDTO: assessmentDTOS) {
+            Boolean assessmentCompleteness = this.assessmentService.getAssessmentCompleteness(assessmentDTO);
+            AssessmentDetailsDTO assessmentDetailsDTO = new AssessmentDetailsDTO();
+            assessmentDetailsDTO.setupDTO(assessmentDTO);
+            assessmentDetailsDTO.setComplete(assessmentCompleteness);
+        }
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(assessmentDetailsDTOS));
     }
 
     /**

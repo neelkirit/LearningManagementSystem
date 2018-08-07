@@ -2,6 +2,7 @@ package com.amogh.lms.service;
 
 import com.amogh.lms.domain.Topic;
 import com.amogh.lms.service.dto.TopicDTO;
+import com.amogh.lms.service.dto.TopicDetailsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.*;
@@ -54,7 +55,7 @@ public interface TopicService {
      * @param courseId the course id
      * @return List of topic DTO objects
      */
-    List<TopicDTO> findByCourseId(Long courseId);
+    List<TopicDetailsDTO> findByCourseId(Long courseId);
 
     /**
      * Get all topics without pagination

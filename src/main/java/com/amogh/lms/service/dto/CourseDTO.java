@@ -19,6 +19,8 @@ public class CourseDTO implements Serializable {
 
     private String icon;
 
+    private Boolean isComplete;
+
     public Long getId() {
         return id;
     }
@@ -61,7 +63,7 @@ public class CourseDTO implements Serializable {
         }
 
         CourseDTO courseDTO = (CourseDTO) o;
-        if(courseDTO.getId() == null || getId() == null) {
+        if (courseDTO.getId() == null || getId() == null) {
             return false;
         }
         return Objects.equals(getId(), courseDTO.getId());
@@ -80,5 +82,13 @@ public class CourseDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", icon='" + getIcon() + "'" +
             "}";
+    }
+
+    public Boolean getComplete() {
+        return isComplete;
+    }
+
+    public void setComplete(Boolean complete) {
+        isComplete = complete;
     }
 }

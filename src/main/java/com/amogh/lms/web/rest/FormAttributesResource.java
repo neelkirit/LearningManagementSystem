@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,5 +116,25 @@ public class FormAttributesResource {
         log.debug("REST request to delete FormAttributes : {}", id);
         formAttributesService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+
+    /**
+     * GET  /form-attributes/form/:id : get the "id" formAttributes.
+     *
+     * @param formId the id of the formAttributesDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the formAttributesDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/form-attributes/form/{formId}")
+    @Timed
+    public ResponseEntity<List<FormAttributesDTO>> getFormAttributesForForm(@PathVariable Long formId) {
+        log.debug("REST request to get FormAttributes for form : {}", formId);
+        List<FormAttributesDTO> resFormAttrDTOS = new ArrayList<>();
+        List<FormAttributesDTO> formAttributesDTOS = formAttributesService.findAll();
+        for(FormAttributesDTO faDTO: formAttributesDTOS) {
+            if (faDTO.getFormId() == formId) {
+                resFormAttrDTOS.add(faDTO);
+            }
+        }
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(resFormAttrDTOS));
     }
 }

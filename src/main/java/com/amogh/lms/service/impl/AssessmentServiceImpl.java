@@ -1,14 +1,12 @@
 package com.amogh.lms.service.impl;
 
-import com.amogh.lms.service.*;
 import com.amogh.lms.domain.Assessment;
 import com.amogh.lms.repository.AssessmentRepository;
+import com.amogh.lms.service.*;
 import com.amogh.lms.service.dto.*;
 import com.amogh.lms.service.mapper.AssessmentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -126,12 +124,12 @@ public class AssessmentServiceImpl implements AssessmentService {
      */
     @Override
     public List<AssessmentExerciseDTO> getExercisesForCourseId(Long courseId) {
-        List<TopicDTO> topicsForCourse = topicService.findByCourseId(courseId);
+        List<TopicDetailsDTO> topicsForCourse = topicService.findByCourseId(courseId);
         AssessmentDTO assessmentDTO = this.findByCourseId(courseId);
         List<AssessmentExerciseDTO> allExercises = new ArrayList<>();
-        for(TopicDTO topicDTO: topicsForCourse) {
+        for (TopicDetailsDTO topicDTO : topicsForCourse) {
             List<ExerciseDTO> exercisesForTopic = this.exerciseService.findByTopicId(topicDTO.getId());
-            for (ExerciseDTO exerciseDTO: exercisesForTopic) {
+            for (ExerciseDTO exerciseDTO : exercisesForTopic) {
                 TemplateDTO templateDTO = this.templateService.findOne(exerciseDTO.getTemplateId());
                 AssessmentExerciseDTO assessmentExerciseDTO = new AssessmentExerciseDTO();
                 assessmentExerciseDTO.setupDTO(exerciseDTO, templateDTO, assessmentDTO);
@@ -151,7 +149,7 @@ public class AssessmentServiceImpl implements AssessmentService {
         Long assessmentId = null;
         Long userId = null;
         int answeredCorrect = 0;
-        for (AssessmentExerciseDTO assessmentExerciseDTO: assessmentExerciseDTOS) {
+        for (AssessmentExerciseDTO assessmentExerciseDTO : assessmentExerciseDTOS) {
             if (assessmentId == null) {
                 assessmentId = assessmentExerciseDTO.getAssessmentDTO().getId();
                 userId = assessmentExerciseDTO.getUserId();
@@ -160,14 +158,14 @@ public class AssessmentServiceImpl implements AssessmentService {
                 ++answeredCorrect;
             }
         }
-        Float assessmentScore = (((float)answeredCorrect)/assessmentExerciseDTOS.size()) * 100;
+        Float assessmentScore = (((float) answeredCorrect) / assessmentExerciseDTOS.size()) * 100;
         List<AssessmentStatsDTO> assessmentStatsByUser = this.assessmentStatsService.findAssessmentStatsByUser();
         AssessmentStatsDTO assessmentStatsDTO = null;
         if (assessmentStatsByUser != null) {
-            for (AssessmentStatsDTO assessmentStatDTOByUser: assessmentStatsByUser) {
+            for (AssessmentStatsDTO assessmentStatDTOByUser : assessmentStatsByUser) {
                 if (assessmentStatDTOByUser.getAssessmentId() == assessmentId) {
                     assessmentStatsDTO = assessmentStatDTOByUser;
-                    if(assessmentScore <  assessmentStatDTOByUser.getScore()) {
+                    if (assessmentScore < assessmentStatDTOByUser.getScore()) {
                         assessmentStatsDTO.setScore(assessmentScore);
                     }
                     break;
@@ -185,5 +183,22 @@ public class AssessmentServiceImpl implements AssessmentService {
         results.put("assessmentScore", assessmentScore);
         results.put("answeredCorrect", answeredCorrect);
         return results;
+    }
+
+    @Override
+    public Boolean getAssessmentCompleteness(AssessmentDTO assessmentDTO) {
+        List<AssessmentStatsDTO> assessmentStatsByUser = this.assessmentStatsService.findAssessmentStatsByUser();
+        AssessmentStatsDTO assessmentStatsDTOForThisAssessment = null;
+        for (AssessmentStatsDTO assessmentStatsDTO : assessmentStatsByUser) {
+            if (assessmentDTO.getId() == assessmentStatsDTO.getAssessmentId()) {
+                assessmentStatsDTOForThisAssessment = assessmentStatsDTO;
+                break;
+            }
+        }
+        Boolean isComplete = false;
+        if (assessmentStatsDTOForThisAssessment != null && assessmentStatsDTOForThisAssessment.getScore() > assessmentDTO.getThreshold()) {
+            isComplete = true;
+        }
+        return isComplete;
     }
 }

@@ -20,6 +20,12 @@ INSERT INTO course (name, description, icon)
 VALUES ( 'Check Boxes', 'Learn to select a small box on a form into which a tick or other mark is entered as the response to a question', 'checkbox' );
 
 INSERT INTO course (name, description, icon)
+VALUES ( 'Dates', 'Learn to identify and select the day of the month or year as specified by a number', 'calendar' );
+
+INSERT INTO course (name, description, icon)
+VALUES ( 'Mathematics', 'Learn the abstract science of number, quantity, and space', 'calculator' );
+
+INSERT INTO course (name, description, icon)
 VALUES ( 'Forms', 'Use all that you have practiced and fill the form', 'list-box' );
 
 
@@ -37,6 +43,10 @@ INSERT INTO assessment (threshold, course_id) VALUES ('75', (select id from cour
 
 INSERT INTO assessment (threshold, course_id) VALUES ('75', (select id from course where name='Check Boxes'));
 
+INSERT INTO assessment (threshold, course_id) VALUES ('75', (select id from course where name='Dates'));
+
+INSERT INTO assessment (threshold, course_id) VALUES ('75', (select id from course where name='Mathematics'));
+
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'ALPHABET', 'Identify and type the alphabet shown', 'BOLD', 'ALPH_BOLD' );
 
@@ -51,6 +61,8 @@ INSERT INTO template (content_type, content_prefix, content_style, name) VALUES 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'NUMBER', 'Identify and type the number shown', 'ITALICS', 'NUMB_ITALICS' );
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'NUMBER', 'Identify and type the number shown', 'BOLD_ITALICS', 'NUMB_BOLD_ITALICS' );
+
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'MATH', 'Solve and type the answer', 'NORMAL', 'NUMB_NORMAL' );
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'WORD', 'Identify and type the word shown', 'BOLD', 'WORD_BOLD' );
 
@@ -73,5 +85,9 @@ INSERT INTO template (content_type, content_prefix, content_style, name) VALUES 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'RADIOBUTTON', 'Identify __ANSWER__ and select from options', 'NORMAL', 'RADIO_NORMAL' );
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'CHECKBOX', 'Identify __ANSWER__ and select from options', 'NORMAL', 'CHECK_NORMAL' );
+
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'MATH', 'Type the answer for the equation', 'NORMAL', 'MATH_NORMAL' );
+
+INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'DATE', 'Select __ANSWER__ from the calendar', 'NORMAL', 'DATE_NORMAL' );
 
 INSERT INTO template (content_type, content_prefix, content_style, name) VALUES ( 'FORM', 'Fill all the fields in the form', 'NORMAL', 'FORM_NORMAL' );
