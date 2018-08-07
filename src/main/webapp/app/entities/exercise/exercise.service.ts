@@ -41,6 +41,13 @@ export class ExerciseService {
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
+    
+    uploadExercises(fileContent: string): Observable<HttpResponse<any>> {
+    	let uploadResourceUrl = this.resourceUrl + '/uploadExercises'
+    	console.log(uploadResourceUrl);
+    	return this.http.post(uploadResourceUrl, fileContent, { observe: 'response' })
+            .map((res: EntityResponseType) => this.convertResponse(res));
+    }
 
     private convertResponse(res: EntityResponseType): EntityResponseType {
         const body: Exercise = this.convertItemFromServer(res.body);

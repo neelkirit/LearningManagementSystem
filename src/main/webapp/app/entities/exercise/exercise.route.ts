@@ -6,6 +6,7 @@ import { UserRouteAccessService } from '../../shared';
 import { ExerciseComponent } from './exercise.component';
 import { ExerciseDetailComponent } from './exercise-detail.component';
 import { ExercisePopupComponent } from './exercise-dialog.component';
+import { ExerciseUploadPopupComponent } from './exercise-upload.component';
 import { ExerciseDeletePopupComponent } from './exercise-delete-dialog.component';
 
 @Injectable()
@@ -51,6 +52,16 @@ export const exercisePopupRoute: Routes = [
     {
         path: 'exercise-new',
         component: ExercisePopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'amoghServerApp.exercise.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
+        path: 'exercise-upload',
+        component: ExerciseUploadPopupComponent,
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'amoghServerApp.exercise.home.title'

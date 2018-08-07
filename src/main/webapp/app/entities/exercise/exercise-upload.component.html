@@ -1,0 +1,18 @@
+<form name="uploadForm" role="form" novalidate (ngSubmit)="upload()" #uploadForm="ngForm">
+
+    <div class="modal-header">
+    	<h4 class="modal-title">Upload exercises</h4>
+    </div>
+    <div class="modal-body">
+    <input type="file" class="form-control" id="id" name="id"
+                   [(ngModel)]="filePath" readonly (change)="noteFile($event.target.files)"/>
+    </div>
+    <div class="modal-footer">
+    	<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="!filePath" class="btn btn-primary" (click)="uploadFile()">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

@@ -1,6 +1,11 @@
 <div>
     <h2>
         <span jhiTranslate="amoghServerApp.exercise.home.title">Exercises</span>
+        <button class="btn btn-primary float-right" [routerLink]="['/', { outlets: { popup: ['exercise-upload'] } }]">
+            <span class="fa fa-sign-in"></span>            
+            Upload Exercises
+            </span>
+        </button>
         <button class="btn btn-primary float-right jh-create-entity create-exercise" [routerLink]="['/', { outlets: { popup: ['exercise-new'] } }]">
             <span class="fa fa-plus"></span>
             <span  jhiTranslate="amoghServerApp.exercise.home.createLabel">
