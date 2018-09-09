@@ -34,7 +34,8 @@ export class CourseService {
 
     query(req?: any): Observable<HttpResponse<Course[]>> {
         const options = createRequestOption(req);
-        return this.http.get<Course[]>(this.resourceUrl, { params: options, observe: 'response' })
+        let updResURL = this.resourceUrl + '/page'
+        return this.http.get<Course[]>(updResURL, { params: options, observe: 'response' })
             .map((res: HttpResponse<Course[]>) => this.convertArrayResponse(res));
     }
 
